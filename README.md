@@ -1,2 +1,4 @@
-# back_typescript
-Projeto você na facul desenvolvido em TypeScript
+# Você na Facul
+Git do Projeto você na Facul / Back
+
+Adonis V.5 TypeScript + PostgreSQL
