@@ -5,7 +5,7 @@ export default class EnemsController {
     const value = {
       'Ciencias Humanas': {
         História: ['História do Brasil', 'História Geral'],
-        Geografia: ['Geografia Geral', 'Geografia do Brasil'],
+        Geografia: ['Geografia Geral', 'Geografia do Brasil', 'Atualidade'],
         Filosofia: ['Filosofia'],
         Sociologia: ['Sociologia'],
       },
