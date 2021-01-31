@@ -23,6 +23,8 @@ export default class ExamsController {
     exam.exam = newExam.exam
     exam.location = newExam.location
     await exam.save()
+
+    return exam
   }
 
   public async DelExam({ auth, params, response }: HttpContextContract) {
