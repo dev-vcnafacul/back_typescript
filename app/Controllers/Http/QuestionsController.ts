@@ -4,12 +4,11 @@ import { EnemArea, Frentes, Materias } from 'App/Enums/Enem'
 import { Correct } from 'App/Enums/Question'
 import Exam from 'App/Models/Exam'
 import Question from 'App/Models/Question'
-import { roundToNearestMinutes } from 'date-fns'
 
 export default class QuestionsController {
   public async NewQuestion({ auth, request, response }: HttpContextContract) {
-    if (!auth.user) {
-      return {}
+    if (!auth.user?.is_teacher) {
+      return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
     const validationSchema = schema.create({
@@ -71,7 +70,11 @@ export default class QuestionsController {
     return response.status(200).json({ msg: 'Questão Cadastrada' })
   }
 
-  public async DeleteQuestion({ request }: HttpContextContract) {
+  public async DeleteQuestion({ auth, request, response }: HttpContextContract) {
+    if (!auth.user?.is_teacher) {
+      return response.status(401).json({ error: 'Você não tem Autorização' })
+    }
+
     const IdQuestion = request.input('id')
 
     const question = await Question.findByOrFail('id', IdQuestion)

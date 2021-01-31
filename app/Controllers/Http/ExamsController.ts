@@ -4,7 +4,10 @@ import { Location } from 'App/Enums/Location'
 import Exam from 'App/Models/Exam'
 
 export default class ExamsController {
-  public async NewExam({ request }: HttpContextContract) {
+  public async NewExam({ auth, request, response }: HttpContextContract) {
+    if(!auth.user?.is_teacher){
+      return response.status(401).json({ error: "Você não tem Autorização"})
+    }
     const exam = new Exam()
 
     const validationSchema = schema.create({
@@ -21,7 +24,10 @@ export default class ExamsController {
     await exam.save()
   }
 
-  public async DelExam({ request }: HttpContextContract) {
+  public async DelExam({ auth, request, response }: HttpContextContract) {
+    if(!auth.user?.is_teacher){
+      return response.status(401).json({ error: "Você não tem Autorização"})
+    }
     const idExam = request.input('id')
 
     const exam = await Exam.findByOrFail('id', idExam)

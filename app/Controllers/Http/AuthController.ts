@@ -91,6 +91,11 @@ export default class AuthController {
   }
 
   public async patchAdmin({ auth, request, response }: HttpContextContract){
+
+    if(!auth.user?.admin){
+      return response.status(401).json({ error: "Você não tem Autorização"})
+    }
+
     const user = await User.findByOrFail('id', request.input('id'))
 
     user.admin = user.admin ? false : true

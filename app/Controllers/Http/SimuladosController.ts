@@ -5,7 +5,12 @@ import Simulado from 'App/Models/Simulado'
 import TypesSimulado from 'App/Models/TypesSimulado'
 
 export default class SimuladosController {
-  public async createTypes({ request, response }: HttpContextContract) {
+  public async createTypes({ auth, request, response }: HttpContextContract) {
+    
+    if(!auth.user?.is_teacher && !auth.user?.admin){
+      return response.status(401).json({ error: "Você não tem Autorização"})
+    }
+
     const validationSchema = schema.create({
       name: schema.string({}, [
         rules.unique({ table: 'types_simulados', column: 'name' }),
@@ -30,7 +35,10 @@ export default class SimuladosController {
     return response.status(200).json(type)
   }
 
-  public async delTypes({ request }: HttpContextContract) {
+  public async delTypes({ auth, request, response }: HttpContextContract) {
+    if(!auth.user?.is_teacher && !auth.user?.admin){
+      return response.status(401).json({ error: "Você não tem Autorização"})
+    }
     const idType = request.input('id')
 
     const type = await TypesSimulado.findByOrFail('id', idType)
@@ -44,7 +52,12 @@ export default class SimuladosController {
     return response.json(allTypes)
   }
 
-  public async createSimulado({ request, response }: HttpContextContract) {
+  public async createSimulado({ auth, request, response }: HttpContextContract) {
+
+    if(!auth.user?.is_teacher && !auth.user?.admin){
+      return response.status(401).json({ error: "Você não tem Autorização"})
+    }
+
     const validationSchema = schema.create({
       name: schema.string({}, [
         rules.required(),
