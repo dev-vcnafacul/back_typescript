@@ -44,3 +44,4 @@ Route.delete('/deltypesimulate/:id', 'SimuladosController.delTypes').middleware(
 Route.get('/listtypesimulate', 'SimuladosController.listTypes').middleware('auth')
 Route.post('/newsimulate', 'SimuladosController.createSimulado').middleware('auth')
 Route.get('/callsimulate/:id', 'SimuladosController.callSimulate').middleware('auth')
+Route.post('/answersimulate', 'SimuladosController.answersimulate').middleware('auth')
