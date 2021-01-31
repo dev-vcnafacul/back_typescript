@@ -77,8 +77,6 @@ export default class AuthController {
   public async patchme({ auth, response, request }: HttpContextContract) {
     const user = await User.findByOrFail('id', auth.user?.id)
 
-    console.log('cheguei aqui')
-
     const data = request.all()
 
     user.first_name = data.first_name || user.first_name
