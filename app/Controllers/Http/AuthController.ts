@@ -12,15 +12,15 @@ export default class AuthController {
         rules.email(),
         rules.unique({ table: 'users', column: 'email' }),
       ]),
-      password: schema.string({ trim: true }, [rules.confirmed(), rules.required()]),
-      first_name: schema.string({ trim: true }, [rules.required()]),
-      last_name: schema.string({}, [rules.required()]),
-      phone: schema.string({ trim: true }, [rules.required()]),
-      gender: schema.string({}, [rules.required()]),
-      birthday: schema.date({ format: 'DD/MM/YYYY' }, [rules.required()]),
-      state: schema.string({}, [rules.required()]),
-      city: schema.string({}, [rules.required()]),
-      is_teacher: schema.boolean([rules.required()]),
+      password: schema.string({ trim: true }, [rules.confirmed()]),
+      first_name: schema.string({ trim: true }),
+      last_name: schema.string({}),
+      phone: schema.string({ trim: true }),
+      gender: schema.string({}),
+      birthday: schema.date({}),
+      state: schema.string({}),
+      city: schema.string({}),
+      is_teacher: schema.boolean(),
     })
 
     const { about } = request.only(['about'])
@@ -49,12 +49,15 @@ export default class AuthController {
     return response.status(200).json(user)
   }
 
-  public async login({ request, auth }: HttpContextContract) {
+  public async login({ request, auth, response }: HttpContextContract) {
     const email = request.input('email')
     const password = request.input('password')
 
     const token = await auth.use('api').attempt(email, password)
-    return token.toJSON()
+
+    const user = await User.findByOrFail('email', email)
+
+    return response.json({ user: user.toJSON(), token: token.toJSON()})
   }
 
   public async me({ auth, response }: HttpContextContract) {
@@ -74,6 +77,8 @@ export default class AuthController {
   public async patchme({ auth, response, request }: HttpContextContract) {
     const user = await User.findByOrFail('id', auth.user?.id)
 
+    console.log('cheguei aqui')
+
     const data = request.all()
 
     user.first_name = data.first_name || user.first_name
@@ -90,10 +95,9 @@ export default class AuthController {
     return response.status(200).json(user)
   }
 
-  public async patchAdmin({ auth, request, response }: HttpContextContract){
-
-    if(!auth.user?.admin){
-      return response.status(401).json({ error: "Você não tem Autorização"})
+  public async patchAdmin({ auth, request, response }: HttpContextContract) {
+    if (!auth.user?.admin) {
+      return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
     const user = await User.findByOrFail('id', request.input('id'))
