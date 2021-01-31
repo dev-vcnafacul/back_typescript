@@ -4,9 +4,9 @@ import TypesSimulado from 'App/Models/TypesSimulado'
 import { ArrayFrentes, ArrayQuestion } from 'App/Types/Sumulados'
 
 export default class CreateSimulados {
-  private readonly name: string
-  private readonly type: TypesSimulado
-  private readonly question: Number[]
+  private name: string
+  private type: TypesSimulado
+  private question: Number[]
   private AQuestion: Question[]
   private allQuestions: ArrayQuestion
   private Arrayfrentes: ArrayFrentes

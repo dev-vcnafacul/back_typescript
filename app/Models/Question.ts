@@ -7,7 +7,7 @@ export default class Question extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column()
+  @column({ serializeAs: null })
   public user_id: number
 
   @column()
@@ -25,22 +25,22 @@ export default class Question extends BaseModel {
   @column()
   public frente: Frentes
 
-  @column()
+  @column({ serializeAs: null })
   public difficulty: number
 
-  @column()
+  @column({ serializeAs: null })
   public quantity: number
 
-  @column()
+  @column({ serializeAs: null })
   public quantity_test: number
 
   @column()
   public year: number
 
-  @column()
+  @column({ serializeAs: null })
   public status: StatusQuestion
 
-  @column()
+  @column({ serializeAs: null })
   public correct: Correct
 
   @column.dateTime({ autoCreate: true })

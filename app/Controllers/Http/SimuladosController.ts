@@ -1,14 +1,15 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import AnswerSimulate from 'App/Class/AnswerSimulate'
 import CreateSimulados from 'App/Class/CreateSimulados'
 import Simulado from 'App/Models/Simulado'
 import TypesSimulado from 'App/Models/TypesSimulado'
+import { AnswerReceived, AnswerSend } from 'App/Types/Answer'
 
 export default class SimuladosController {
   public async createTypes({ auth, request, response }: HttpContextContract) {
-    
-    if(!auth.user?.is_teacher && !auth.user?.admin){
-      return response.status(401).json({ error: "Você não tem Autorização"})
+    if (!auth.user?.is_teacher && !auth.user?.admin) {
+      return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
     const validationSchema = schema.create({
@@ -36,8 +37,8 @@ export default class SimuladosController {
   }
 
   public async delTypes({ auth, request, response }: HttpContextContract) {
-    if(!auth.user?.is_teacher && !auth.user?.admin){
-      return response.status(401).json({ error: "Você não tem Autorização"})
+    if (!auth.user?.is_teacher && !auth.user?.admin) {
+      return response.status(401).json({ error: 'Você não tem Autorização' })
     }
     const idType = request.input('id')
 
@@ -53,9 +54,8 @@ export default class SimuladosController {
   }
 
   public async createSimulado({ auth, request, response }: HttpContextContract) {
-
-    if(!auth.user?.is_teacher && !auth.user?.admin){
-      return response.status(401).json({ error: "Você não tem Autorização"})
+    if (!auth.user?.is_teacher && !auth.user?.admin) {
+      return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
     const validationSchema = schema.create({
@@ -73,7 +73,9 @@ export default class SimuladosController {
 
     const type = await TypesSimulado.findByOrFail('id', data.idtype)
 
-    const myNewSimulate = new CreateSimulados(data.name, type, data.questions)
+    const ObjmyNewSimulate = new CreateSimulados(data.name, type, data.questions)
+
+    const myNewSimulate = await ObjmyNewSimulate.createSimulate()
 
     return response.status(200).send(myNewSimulate)
   }
@@ -84,5 +86,26 @@ export default class SimuladosController {
     return mySimulate
   }
 
-  
+  public async answersimulate({ request, response }: HttpContextContract): Promise<AnswerSend[]> {
+    const validationSchema = schema.create({
+      ObjAnswer: schema.array().members(
+        schema.object().members({
+          idQuestion: schema.number(),
+          studentAnswer: schema.string(),
+        })
+      ),
+    })
+
+    const typeDetails = await request.validate({
+      schema: validationSchema,
+    })
+
+    const ObjAnswerReceived: AnswerReceived[] = request.input('ObjAnswer')
+
+    const ObjAnswer = new AnswerSimulate(ObjAnswerReceived)
+
+    const Answer = await ObjAnswer.myAnswer()
+
+    return Answer
+  }
 }
