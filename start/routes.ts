@@ -29,13 +29,13 @@ Route.patch('/patchadmin', 'AuthController.patchAdmin').middleware('auth')
 Route.post('/forgot', 'ForgotsController.forgot')
 Route.patch('/reset', 'ForgotsController.reset')
 
-Route.post('/newquetion', 'QuestionsController.NewQuestion').middleware('auth')
-Route.delete('/deletequetion/:id', 'QuestionsController.DeleteQuestion').middleware('auth')
-Route.get('/selectquestion/:id', 'QuestionsController.SelectQuestion').middleware('auth')
-
 Route.post('/newexam', 'ExamsController.NewExam').middleware('auth')
 Route.delete('/delexam/:id', 'ExamsController.DelExam').middleware('auth')
 Route.get('/listexam', 'ExamsController.ListExam').middleware('auth')
+
+Route.post('/newquetion', 'QuestionsController.NewQuestion').middleware('auth')
+Route.delete('/deletequetion/:id', 'QuestionsController.DeleteQuestion').middleware('auth')
+Route.get('/selectquestion/:id', 'QuestionsController.SelectQuestion').middleware('auth')
 
 Route.get('/allenem', 'EnemsController.AllEnem').middleware('auth')
 
