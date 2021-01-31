@@ -5,9 +5,10 @@ export default class EnemsController {
     const value = {
       'Ciencias Humanas': {
         História: ['História do Brasil', 'História Geral'],
-        Geografia: ['Geografia Geral', 'Geografia do Brasil', 'Atualidade'],
+        Geografia: ['Geografia Geral', 'Geografia do Brasil'],
         Filosofia: ['Filosofia'],
         Sociologia: ['Sociologia'],
+        Atualidade: ['Atualidade'],
       },
       'Ciencias da Natureza': {
         Física: ['Eletromagnetismo', 'Mecânica', 'Óptica e Térmica'],
