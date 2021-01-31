@@ -23,8 +23,8 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.post('/register', 'AuthController.register')
 Route.post('/login', 'AuthController.login')
 Route.get('/me', 'AuthController.me').middleware('auth')
-Route.post('/patchme', 'AuthController.patchme').middleware('auth')
-Route.post('/patchadmin', 'AuthController.patchAdmin').middleware('auth')
+Route.patch('/patchme', 'AuthController.patchme').middleware('auth')
+Route.patch('/patchadmin', 'AuthController.patchAdmin').middleware('auth')
 
 Route.post('/forgot', 'ForgotsController.forgot')
 Route.patch('/reset', 'ForgotsController.reset')
