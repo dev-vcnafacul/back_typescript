@@ -42,6 +42,7 @@ Route.get('/allenem', 'EnemsController.AllEnem').middleware('auth')
 Route.post('/newtypesimulate', 'SimuladosController.createTypes').middleware('auth')
 Route.delete('/deltypesimulate/:id', 'SimuladosController.delTypes').middleware('auth')
 Route.get('/listtypesimulate', 'SimuladosController.listTypes').middleware('auth')
+
 Route.post('/newsimulate', 'SimuladosController.createSimulado').middleware('auth')
 Route.get('/callsimulate/:id', 'SimuladosController.callSimulate').middleware('auth')
 Route.post('/answersimulate', 'SimuladosController.answersimulate').middleware('auth')
