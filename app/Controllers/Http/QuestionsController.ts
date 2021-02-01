@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
-import { EnemArea, Frentes, Materias } from 'App/Enums/Enem'
+import { EnemArea, Frentes, Subjects } from 'App/Enums/Enem'
 import { Correct } from 'App/Enums/Question'
 import Exam from 'App/Models/Exam'
 import Question from 'App/Models/Question'
@@ -15,7 +15,7 @@ export default class QuestionsController {
 
     const validationSchema = schema.create({
       enemArea: schema.enum(Object.values(EnemArea)),
-      subjects: schema.enum(Object.values(Materias)),
+      subjects: schema.enum(Object.values(Subjects)),
       frente1: schema.enum(Object.values(Frentes)),
       frente2: schema.enum(Object.values(Frentes)),
       frente3: schema.enum(Object.values(Frentes)),
