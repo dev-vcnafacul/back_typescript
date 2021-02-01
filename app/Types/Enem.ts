@@ -10,6 +10,7 @@ export type EnemArea = {
     Geografia: 'Geografia'
     Filosofia: 'Filosofia'
     Sociologia: 'Sociologia'
+    Atualidade: 'Atualidade'
     Quimica: 'Química'
     Fisica: 'Física'
     Biologia: 'Biologia'

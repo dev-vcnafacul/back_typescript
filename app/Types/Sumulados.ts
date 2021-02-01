@@ -48,7 +48,7 @@ export type ArrayQuestion = {
     'Língua Estrangeiras': Question[]
     'Artes': Question[]
     'Educação Física': Question[]
-    'Tecnologia da Informação e Comunicação': []
+    'Tecnologia da Informação e Comunicação': Question[]
   }
   'Matemática': {
     Matemática: Question[]
@@ -58,4 +58,21 @@ export type ArrayQuestion = {
 export type RulesTypes = {
   subjects: Subjects
   quantify: number
+}
+
+export type ArraySubjects = {
+  'História': Question[]
+  'Geografia': Question[]
+  'Filosofia': Question[]
+  'Sociologia': Question[]
+  'Química': Question[]
+  'Física': Question[]
+  'Biologia': Question[]
+  'Língua Portuguesa': Question[]
+  'Literatura': Question[]
+  'Língua Estrangeiras': Question[]
+  'Artes': Question[]
+  'Educação Física': Question[]
+  'Tecnologia da Informação e Comunicação': Question[]
+  'Matemática': Question[]
 }

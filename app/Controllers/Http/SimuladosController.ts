@@ -14,11 +14,8 @@ export default class SimuladosController {
     }
 
     const validationSchema = schema.create({
-      name: schema.string({}, [
-        rules.unique({ table: 'types_simulados', column: 'name' }),
-        rules.required(),
-      ]),
-      question: schema.number([rules.required()]),
+      name: schema.string({}, [rules.unique({ table: 'types_simulados', column: 'name' })]),
+      question: schema.number(),
       rules: schema.array().members(
         schema.object().members({
           subjects: schema.enum(Object.values(Subjects)),
@@ -65,11 +62,8 @@ export default class SimuladosController {
     }
 
     const validationSchema = schema.create({
-      name: schema.string({}, [
-        rules.required(),
-        rules.unique({ table: 'simulados', column: 'name' }),
-      ]),
-      idtype: schema.number([rules.required()]),
+      name: schema.string({}, [rules.unique({ table: 'simulados', column: 'name' })]),
+      idtype: schema.number(),
       questions: schema.array().members(schema.number()),
     })
 

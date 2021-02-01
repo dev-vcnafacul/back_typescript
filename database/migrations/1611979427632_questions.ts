@@ -81,7 +81,8 @@ export default class Questions extends BaseSchema {
       // Quantidades de vezes que essa questão foi respondida
       table.integer('quantity').defaultTo(0).notNullable()
       // Quantidade de vezes que essa questão apareceu em simulados diferentes
-      table.json('history').defaultTo(0).notNullable()
+      table.integer('quantity_test').defaultTo(0).notNullable()
+      table.json('history_test').defaultTo(0).notNullable()
       // Que ano
       table.integer('year').notNullable()
       table.enum('status', ['aprovada', 'reprovada', 'pendente']).defaultTo('aprovada')

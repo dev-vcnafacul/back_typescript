@@ -1,15 +1,31 @@
 import Question from 'App/Models/Question'
 import Simulado from 'App/Models/Simulado'
 import TypesSimulado from 'App/Models/TypesSimulado'
-import { ArrayFrentes, ArrayQuestion } from 'App/Types/Sumulados'
+import { ArrayQuestion, ArraySubjects } from 'App/Types/Sumulados'
 
+const valueEnem = [
+  'História',
+  'Geografia',
+  'Filosofia',
+  'Sociologia',
+  'Atualidade',
+  'Química',
+  'Física',
+  'Biologia',
+  'Língua Portuguesa',
+  'Literatura',
+  'Língua Estrangeiras',
+  'Artes',
+  'Educação Física',
+  'Tecnologia da Informação e Comunicação',
+  'Matemática',
+]
 export default class CreateSimulados {
   private name: string
   private type: TypesSimulado
   private question: Number[]
-  private AQuestion: Question[]
   private allQuestions: ArrayQuestion
-  private Arrayfrentes: ArrayFrentes
+  private ArraySubjects: ArraySubjects
 
   constructor(name: string, type: TypesSimulado, question: Number[]) {
     this.name = name
@@ -17,53 +33,57 @@ export default class CreateSimulados {
     this.question = question
   }
 
-  private async consultSQLQuestion() {
+  private async consultaQuestion() {
     this.question.map(async (element) => {
       const question: Question = await Question.findByOrFail('id', element)
-      this.Arrayfrentes[question.frente].push(question.id)
+      this.ArraySubjects[question.subjects].push(question)
       this.allQuestions[question.enemArea][question.subjects].push(question)
     })
   }
 
   private completeMyQuestion(): void {
-    this.listQuestions(this.AQuestion)
     if (this.type.question > this.question.length) {
       this.verifyRules()
     }
   }
 
   private verifyRules(): void {
-    this.type.rules.map((element) => {
-      if (element.quantify > this.Arrayfrentes[element.frente].length) {
-        this.completeFrente(
-          element.quantify - this.Arrayfrentes[element.frente].length,
-          element.frente
-        )
-      }
-    })
+    if (this.type.question > this.question.length) {
+      this.type.rules.map((element) => {
+        if (element.quantify > this.ArraySubjects[element.subjects].length) {
+          this.completeArrayQuestion(
+            element.quantify - this.ArraySubjects[element.subjects].length,
+            element.subjects
+          )
+        }
+      })
+    }
   }
 
-  private listQuestions(question: Question[]): void {
-    question.map((element) => {
-      this.Arrayfrentes[element.frente].push(element.id)
-      this.allQuestions[element.enemArea][element.subjects].push(element)
-    })
-  }
-
-  private async completeFrente(quantify: number, frente: string): Promise<void> {
+  private async completeArrayQuestion(quantify: number, subjects: string): Promise<void> {
     const myquestion: Question[] = await Question.query()
-      .where('frente', frente)
+      .where('subjects', subjects)
       .limit(quantify)
       .min('quantity_test')
 
     myquestion.map((element) => {
-      this.Arrayfrentes[element.frente].push(element.id)
+      this.ArraySubjects[element.subjects].push(element)
       this.allQuestions[element.enemArea][element.subjects].push(element)
     })
   }
 
+  private async updateQuestion(idSimulate: number) {
+    valueEnem.map((element) => {
+      this.ArraySubjects[element].map(async (value)=>{
+        value.quantity_test += 1
+        value.history_test.push(idSimulate)
+        await value.save()
+      })
+    })
+  }
+
   public async createSimulate(): Promise<Simulado> {
-    this.consultSQLQuestion()
+    this.consultaQuestion()
     this.completeMyQuestion()
 
     const simulate = new Simulado()
@@ -74,6 +94,8 @@ export default class CreateSimulados {
 
     await simulate.save()
 
+    this.updateQuestion(simulate.id)
+    
     return simulate
   }
 }
