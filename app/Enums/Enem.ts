@@ -5,7 +5,7 @@ export enum EnemArea {
   Matematica = 'Matemática',
 }
 
-export enum Materias {
+export enum Subjects {
   Historia = 'História',
   Geografia = 'Geografia',
   Filosofia = 'Filosofia',

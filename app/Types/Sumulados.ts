@@ -1,11 +1,5 @@
+import { Subjects } from 'App/Enums/Enem'
 import Question from 'App/Models/Question'
-
-export type Isimulado = {
-  name: string
-  exam: number
-  type: number
-  questions: Question[]
-}
 
 export type ArrayFrentes = {
   'Botânica e Ecologia': number[]
@@ -59,4 +53,9 @@ export type ArrayQuestion = {
   'Matemática': {
     Matemática: Question[]
   }
+}
+
+export type RulesTypes = {
+  subjects: Subjects
+  quantify: number
 }

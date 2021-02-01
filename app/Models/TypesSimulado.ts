@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { RulesFrente } from 'App/Types/Frente'
+import { RulesTypes } from 'App/Types/Sumulados'
 
 export default class TypesSimulado extends BaseModel {
   @column({ isPrimary: true })
@@ -13,7 +13,7 @@ export default class TypesSimulado extends BaseModel {
   public question: number
 
   @column()
-  public rules: RulesFrente[]
+  public rules: RulesTypes[]
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

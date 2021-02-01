@@ -5,7 +5,7 @@ export type EnemArea = {
     Matematica: 'Matemática'
   }
   
-  export type Materias = {
+  export type Subjects = {
     Historia: 'História'
     Geografia: 'Geografia'
     Filosofia: 'Filosofia'
