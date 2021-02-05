@@ -7,6 +7,9 @@ import Question from 'App/Models/Question'
 
 import fs from 'fs'
 
+import readXlsxFile from 'read-excel-file/node'
+import ExcelQuestion from 'App/Class/ExcelQuestions'
+
 export default class QuestionsController {
   public async NewQuestion({ auth, request, response }: HttpContextContract) {
     if (!auth.user?.is_teacher) {
@@ -50,7 +53,7 @@ export default class QuestionsController {
     const name = `${new Date().getTime()}.${myImage.extname}`
 
     if (
-      !myImage.move('uploads', {
+      !myImage.move('uploads/images', {
         name: name,
         overwrite: false,
       })
@@ -86,7 +89,7 @@ export default class QuestionsController {
 
     const question = await Question.findByOrFail('id', IdQuestion)
 
-    const path = __dirname.replace('app/Controllers/Http', `uploads/${question.name}`)
+    const path = __dirname.replace('app/Controllers/Http', `uploads/images/${question.name}`)
 
     try {
       fs.unlinkSync(path)
@@ -102,5 +105,48 @@ export default class QuestionsController {
     const question = await Question.findByOrFail('id', idQuestion)
 
     return response.json(question)
+  }
+
+  public async XlsxUploadQuestion({ request, response }: HttpContextContract) {
+    const excel = request.file('docx', {
+      size: '1mb',
+      extnames: ['xlsx', 'csv'],
+    })
+
+    if (!excel) {
+      return 'Please upload file'
+    }
+
+    if (excel.hasErrors) {
+      return excel.errors
+    }
+
+    const name = `${new Date().getTime()}.${excel.extname}`
+
+    try {
+      await excel.move('uploads/excel/', {
+        name: name,
+        overwrite: true,
+      })
+    } catch (err) {
+      response.status(404)
+      return err
+    }
+
+    const path = __dirname.replace('app/Controllers/Http', `uploads/excel/${name}`)
+
+    readXlsxFile(path).then((rows: unknown[]) => {
+      const excelClass = new ExcelQuestion(rows)
+      const data = excelClass.verify()
+
+      console.log(data)
+    })
+
+
+    try {
+      fs.unlinkSync(path)
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
