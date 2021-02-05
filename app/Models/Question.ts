@@ -26,10 +26,10 @@ export default class Question extends BaseModel {
   public frente1: Frentes
 
   @column()
-  public frente2: Frentes
+  public frente2: Frentes | null
 
   @column()
-  public frente3: Frentes
+  public frente3: Frentes | null
 
   @column({ serializeAs: null })
   public difficulty: number
