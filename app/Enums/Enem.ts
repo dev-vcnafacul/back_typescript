@@ -20,6 +20,7 @@ export enum Subjects {
   EducacaFisica = 'Educação Física',
   TecnologiaInformacaoComunicacao = 'Tecnologia da Informação e Comunicação',
   Matematica = 'Matemática',
+  Atualidade = 'Atualidade',
 }
 
 export enum Frentes {
