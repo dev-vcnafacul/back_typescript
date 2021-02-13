@@ -1,15 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
-import { EnemArea, Frentes, Subjects } from 'App/Enums/Enem'
-import { Correct } from 'App/Enums/Question'
+import { Correct, EnemArea, Frentes, Subjects } from 'App/Enums/Question'
 import Exam from 'App/Models/Exam'
 import Question from 'App/Models/Question'
 
 import fs from 'fs'
 
 import readXlsxFile from 'read-excel-file/node'
-import ExcelQuestion from 'App/Class/ExcelQuestions'
-
 export default class QuestionsController {
   public async NewQuestion({ auth, request, response }: HttpContextContract) {
     if (!auth.user?.is_teacher) {
@@ -43,7 +40,7 @@ export default class QuestionsController {
     })
 
     if (!myImage) {
-      return 'Please upload file'
+      return response.status(400).json({ error: 'File not found' })
     }
 
     if (myImage.hasErrors) {
@@ -65,9 +62,9 @@ export default class QuestionsController {
     const question = new Question()
 
     question.user_id = auth.user.id
-    question.name = name
+    question.ImagemLink = name
     question.exam_id = questionDetails.examId
-    question.enemArea = questionDetails.enemArea
+    question.enem_area = questionDetails.enemArea
     question.subjects = questionDetails.subjects
     question.frente1 = questionDetails.frente1
     question.frente2 = questionDetails.frente2
@@ -89,7 +86,7 @@ export default class QuestionsController {
 
     const question = await Question.findByOrFail('id', IdQuestion)
 
-    const path = __dirname.replace('app/Controllers/Http', `uploads/images/${question.name}`)
+    const path = __dirname.replace('app/Controllers/Http', `uploads/images/${question.ImagemLink}`)
 
     try {
       fs.unlinkSync(path)
@@ -107,7 +104,11 @@ export default class QuestionsController {
     return response.json(question)
   }
 
-  public async XlsxUploadQuestion({ request, response }: HttpContextContract) {
+  public async XlsxUploadQuestion({ auth, request, response }: HttpContextContract) {
+    if (!auth.user?.is_teacher) {
+      return response.status(401).json({ error: 'Você não tem Autorização' })
+    }
+
     const excel = request.file('docx', {
       size: '1mb',
       extnames: ['xlsx', 'csv'],
@@ -135,18 +136,50 @@ export default class QuestionsController {
 
     const path = __dirname.replace('app/Controllers/Http', `uploads/excel/${name}`)
 
-    readXlsxFile(path).then((rows: unknown[]) => {
-      const excelClass = new ExcelQuestion(rows)
-      const data = excelClass.verify()
+    const myFile = await readXlsxFile(path)
 
-      console.log(data)
-    })
+    const excelClass = new ExcelQuestion(myFile)
+    const data = excelClass.verify()
 
+    const meuRetorno: string[] = []
+    const arrayPromisse: (() => Promise<void>)[] = []
 
-    try {
-      fs.unlinkSync(path)
-    } catch (err) {
-      console.log(err)
+    if (!data.error) {
+      for (let i = 0; i < data.resp.length; i++) {
+        arrayPromisse.push(
+          async (): Promise<void> => {
+            const examId = await Exam.findBy('exam', data.resp[i].exam)
+            const quest = await Question.findBy('imagem_link', data.resp[i].ImagemLink)
+            if (examId === null) {
+              meuRetorno.push(`${data.resp[i].exam} não existe no sistema`)
+            } else if (quest !== null) {
+              meuRetorno.push(`{ image: ${data.resp[i].ImagemLink}, error: Imagem já cadastrada}`)
+            } else {
+              await Question.create({
+                ImagemLink: data.resp[i].ImagemLink,
+                enem_area: data.resp[i].enemArea,
+                subjects: data.resp[i].materia,
+                frente1: data.resp[i].frente1,
+                frente2: data.resp[i].frente2,
+                frente3: data.resp[i].frente3,
+                exam_id: examId.id,
+                year: data.resp[i].year,
+                correct: data.resp[i].correct,
+              })
+            }
+          }
+        )
+      }
     }
+    fs.unlinkSync(path)
+    await Promise.all(arrayPromisse.map((elem) => elem()))
+    return meuRetorno
+  }
+
+  public async ListAllQuestion({ response }: HttpContextContract) {
+    console.log('list')
+    const data = await Question.all()
+
+    return response.json(data)
   }
 }
