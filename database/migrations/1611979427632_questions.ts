@@ -1,5 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
+const EnemArea = ['Ciências Humanas', 'Ciências da Natureza', 'Linguagens', 'Matemática']
+
 const frentes = [
   'Botânica e ecologia',
   'Fisiologia animal e origem da vida',
@@ -27,7 +29,6 @@ const frentes = [
   'Literatura',
   'Leitura e Produção de Texto',
   'Tecnologias da Informação e Comunicação',
-  null
 ]
 
 export default class Questions extends BaseSchema {
@@ -50,11 +51,9 @@ export default class Questions extends BaseSchema {
         .inTable('exams')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-      table.string('name').notNullable().unique()
+      table.string('imagem_link').notNullable().unique()
       // Areas do Enem, uma boa forma de entender a pergunta
-      table
-        .enum('enem_area', ['Ciencias Humanas', 'Ciencias da Natureza', 'Linguagens', 'Matemática'])
-        .notNullable()
+      table.enum('enem_area', EnemArea).notNullable()
       // Dificuldade da questão de 0 a 100
       table
         .enum('subjects', [
