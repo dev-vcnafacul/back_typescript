@@ -1,4 +1,3 @@
-import Exam from 'App/Models/Exam'
 import User from 'App/Models/User'
 import test from 'japa'
 import supertest from 'supertest'
@@ -48,10 +47,12 @@ test.group('Question', (group) => {
       .send({ exam: 'enem', location: 'BR' })
       .set({ Authorization: `bearer ${login.body.token.token}` })
 
+    const pathImage = __dirname + '/ImageTest.png'
+
     const responseQuestion = await supertest(BASE_URL)
       .post('/newquetion')
       .expect(200)
-      .field('enemArea', 'Ciencias Humanas')
+      .field('enemArea', 'Ciências Humanas')
       .field('subjects', 'História')
       .field('frente1', 'História do Brasil')
       .field('frente2', 'Atualidade')
@@ -59,7 +60,7 @@ test.group('Question', (group) => {
       .field('year', 2019)
       .field('examId', 2)
       .field('correct', 'A')
-      .attach('question', '/home/fernando/Documentos/ImageTest.png')
+      .attach('question', pathImage)
       .set({ Authorization: `bearer ${login.body.token.token}` })
 
     const selectQuestion = await supertest(BASE_URL)

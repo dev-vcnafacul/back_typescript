@@ -19,7 +19,7 @@ let send = {
 }
 
 test.group('Exam', () => {
-  test('create a new exam being a teacher, but not admin', async (assert) => {
+  test('try create a new exam being a teacher, but not admin', async () => {
     await supertest(BASE_URL).post('/register').expect(200).send(send)
 
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send({
@@ -68,41 +68,40 @@ test.group('Exam', () => {
     assert.exists(respListExam.body[0].exam)
   })
 
-  test('create a exam alread exist', async (assert) => {
+  test('create a exam alread exist', async () => {
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send({
-        email: 'anotherTest@gmail.com',
-        password: send.password,
-      })
-  
-      await supertest(BASE_URL)
-        .post('/newexam')
-        .expect(422)
-        .send({ exam: 'enem', location: 'BR' })
-        .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
+      email: 'anotherTest@gmail.com',
+      password: send.password,
+    })
 
+    await supertest(BASE_URL)
+      .post('/newexam')
+      .expect(422)
+      .send({ exam: 'enem', location: 'BR' })
+      .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
   })
 
   test('delete a exam alread exist', async (assert) => {
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send({
-        email: 'anotherTest@gmail.com',
-        password: send.password,
-      })
-  
-      await supertest(BASE_URL)
-        .delete('/delexam/1')
-        .expect(200)
-        .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
+      email: 'anotherTest@gmail.com',
+      password: send.password,
+    })
+
+    await supertest(BASE_URL)
+      .delete('/delexam/1')
+      .expect(200)
+      .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
   })
 
   test('delete a exam not exist', async (assert) => {
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send({
-        email: 'anotherTest@gmail.com',
-        password: send.password,
-      })
-  
-      await supertest(BASE_URL)
-        .delete('/delexam/1')
-        .expect(404)
-        .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
+      email: 'anotherTest@gmail.com',
+      password: send.password,
+    })
+
+    await supertest(BASE_URL)
+      .delete('/delexam/1')
+      .expect(404)
+      .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
   })
 })
