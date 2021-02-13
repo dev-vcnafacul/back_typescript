@@ -1,21 +1,15 @@
-import { Frentes, Subjects, EnemArea } from "App/Enums/Enem";
+import { Correct, Frentes, Subjects, EnemArea } from "App/Enums/Question";
 
-export enum Correct {
-    A,
-    B,
-    C,
-    D,
-    E
-}
+
 
 export type Indices = {
-  imagem: string,
+  ImagemLink: string,
   exam: string,
   year: number,
   enemArea: EnemArea,
   materia: Subjects,
   frente1: Frentes,
-  frente2: Frentes | null,
-  frente3: Frentes | null,
+  frente2: Frentes,
+  frente3: Frentes,
   correct: Correct,
 }
