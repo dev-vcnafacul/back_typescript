@@ -6,7 +6,7 @@ import Exam from 'App/Models/Exam'
 export default class ExamsController {
   public async NewExam({ auth, request, response }: HttpContextContract) {
 
-    if(!auth.user?.admin){
+    if(!auth.user?.is_teacher){
       return response.status(401).json({ error: "Você não tem Autorização"})
     }
     const exam = new Exam()
