@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
+import ExcelQuestion from 'App/Class/ExcelQuestions'
 import { Correct, EnemArea, Frentes, Subjects } from 'App/Enums/Question'
 import Exam from 'App/Models/Exam'
 import Question from 'App/Models/Question'
