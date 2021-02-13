@@ -1,6 +1,6 @@
 export type EnemArea = {
-    CienciaHumana: 'Ciencias Humanas'
-    CienciaNatureza: 'Ciencias da Natureza'
+    CienciaHumana: 'Ciências Humanas'
+    CienciaNatureza: 'Ciências da Natureza'
     Linguagem: 'Linguagens'
     Matematica: 'Matemática'
   }
