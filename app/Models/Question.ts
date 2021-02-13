@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { EnemArea, Frentes, Subjects } from 'App/Enums/Enem'
-import { Correct, StatusQuestion } from 'App/Enums/Question'
+import { Correct, EnemArea, Frentes, StatusQuestion, Subjects } from 'App/Enums/Question'
 
 export default class Question extends BaseModel {
   @column({ isPrimary: true })
@@ -14,10 +13,10 @@ export default class Question extends BaseModel {
   public exam_id: number
 
   @column()
-  public name: string
+  public ImagemLink: string
 
   @column()
-  public enemArea: EnemArea
+  public enem_area: EnemArea
 
   @column()
   public subjects: Subjects
@@ -26,10 +25,10 @@ export default class Question extends BaseModel {
   public frente1: Frentes
 
   @column()
-  public frente2: Frentes | null
+  public frente2: Frentes
 
   @column()
-  public frente3: Frentes | null
+  public frente3: Frentes
 
   @column({ serializeAs: null })
   public difficulty: number
