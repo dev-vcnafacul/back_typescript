@@ -12,7 +12,7 @@ const indices = [
   'Correct',
 ]
 
-const typesEnemArea = ['Ciências Humanas', 'Ciência da Natureza', 'Linguagens', 'Matemática']
+const typesEnemArea = ['Ciências Humanas', 'Ciências da Natureza', 'Linguagens', 'Matemática']
 
 const typesSubjects = [
   'História',
@@ -106,7 +106,7 @@ export default class ExcelQuestion {
       this.LogGeneration(i, 8, typeCorrect, 'Alternativa')
       if(!this.error) {
         this.value = {
-          imagem: this.arrayExcel[i][0],
+          ImagemLink: this.arrayExcel[i][0],
           exam: this.arrayExcel[i][1],
           year: this.arrayExcel[i][2],
           enemArea: this.arrayExcel[i][3],
@@ -124,6 +124,7 @@ export default class ExcelQuestion {
         }
       }
     }
+    
     return { log: this.log, resp: this.ArrayReturn, error: this.error }
   }
 
