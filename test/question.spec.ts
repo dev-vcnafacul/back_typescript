@@ -1,4 +1,3 @@
-import Exam from 'App/Models/Exam'
 import User from 'App/Models/User'
 import test from 'japa'
 import supertest from 'supertest'
@@ -41,7 +40,7 @@ test.group('Question', (group) => {
       email: send.email,
       password: send.password,
     })
-
+    
     await supertest(BASE_URL)
       .post('/newexam')
       .expect(200)
