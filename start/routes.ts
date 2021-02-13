@@ -37,7 +37,9 @@ Route.post('/newquetion', 'QuestionsController.NewQuestion').middleware('auth')
 Route.delete('/deletequetion/:id', 'QuestionsController.DeleteQuestion').middleware('auth')
 Route.get('/selectquestion/:id', 'QuestionsController.SelectQuestion').middleware('auth')
 
-Route.post('/xlsx', 'QuestionsController.XlsxUploadQuestion')
+Route.get('/listallquestion', 'QuestionsController.ListAllQuestion')
+
+Route.post('/xlsx', 'QuestionsController.XlsxUploadQuestion').middleware('auth')
 
 Route.get('/allenem', 'EnemsController.AllEnem').middleware('auth')
 
