@@ -1,4 +1,4 @@
-import { Subjects } from 'App/Enums/Enem'
+import { Subjects } from 'App/Enums/Question'
 import Question from 'App/Models/Question'
 
 export type ArrayFrentes = {
@@ -75,4 +75,5 @@ export type ArraySubjects = {
   'Educação Física': Question[]
   'Tecnologia da Informação e Comunicação': Question[]
   'Matemática': Question[]
+  'Atualidade': Question[]
 }
