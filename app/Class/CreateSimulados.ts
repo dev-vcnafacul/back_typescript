@@ -37,7 +37,7 @@ export default class CreateSimulados {
     this.question.map(async (element) => {
       const question: Question = await Question.findByOrFail('id', element)
       this.ArraySubjects[question.subjects].push(question)
-      this.allQuestions[question.enemArea][question.subjects].push(question)
+      this.allQuestions[question.enem_area][question.subjects].push(question)
     })
   }
 
@@ -68,7 +68,7 @@ export default class CreateSimulados {
 
     myquestion.map((element) => {
       this.ArraySubjects[element.subjects].push(element)
-      this.allQuestions[element.enemArea][element.subjects].push(element)
+      this.allQuestions[element.enem_area][element.subjects].push(element)
     })
   }
 
