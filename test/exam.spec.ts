@@ -81,7 +81,7 @@ test.group('Exam', () => {
       .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
   })
 
-  test('delete a exam alread exist', async (assert) => {
+  test('delete a exam alread exist', async () => {
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send({
       email: 'anotherTest@gmail.com',
       password: send.password,
@@ -93,7 +93,7 @@ test.group('Exam', () => {
       .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
   })
 
-  test('delete a exam not exist', async (assert) => {
+  test('delete a exam not exist', async () => {
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send({
       email: 'anotherTest@gmail.com',
       password: send.password,
