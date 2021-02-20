@@ -1,4 +1,5 @@
 import { Indices } from 'App/Types/PlanQuestion'
+import { EnemArea, Materias, frentes } from 'app/Const/Questions'
 
 const indices = [
   'ImagemLink',
@@ -10,55 +11,6 @@ const indices = [
   'Frente2',
   'Frente3',
   'Correct',
-]
-
-const typesEnemArea = ['Ciências Humanas', 'Ciências da Natureza', 'Linguagens', 'Matemática']
-
-const typesSubjects = [
-  'História',
-  'Geografia',
-  'Filosofia',
-  'Sociologia',
-  'Química',
-  'Física',
-  'Biologia',
-  'Língua Portuguesa',
-  'Literatura',
-  'Língua Estrangeiras',
-  'Artes',
-  'Educação Física',
-  'Tecnologia da Informação e Comunicação',
-  'Matemática',
-  'Atualidade',
-]
-
-const typesFrentes = [
-  'Botânica e Ecologia',
-  'Fisiologia animal e origem da vida',
-  'Metabolismo celular, Bioquímica e Genética',
-  'Eletromagnetismo',
-  'Mecânica',
-  'Óptica e Térmica',
-  'Aritmética e Algebra',
-  'Financeira e Trigonometria',
-  'Geometria',
-  'Físico-Química',
-  'Química Geral',
-  'Química Orgânica',
-  'Atualidade',
-  'Filosofia',
-  'Sociologia',
-  'Geografia do Brasil',
-  'Geografia Geral',
-  'História do Brasil',
-  'História Geral',
-  'Artes',
-  'Espanhol',
-  'Gramática',
-  'Inglês',
-  'Literatura',
-  'Leitura e Produção de Texto',
-  'Tecnologias da Informação e Comunicação',
 ]
 
 const typeCorrect = ['A', 'B', 'C', 'D', 'E']
@@ -98,11 +50,11 @@ export default class ExcelQuestion {
       // return { log: this.log, resp: this.ArrayReturn, error: this.error }
     }
     for (let i = 1; i < this.arrayExcel.length; i++) {
-      this.LogGeneration(i, 3, typesEnemArea, 'área do Enem')
-      this.LogGeneration(i, 4, typesSubjects, 'Matéria')
-      this.LogGeneration(i, 5, typesFrentes, 'Frente')
-      this.LogGeneration(i, 6, typesFrentes, 'Frente', true)
-      this.LogGeneration(i, 7, typesFrentes, 'Frente', true)
+      this.LogGeneration(i, 3, EnemArea, 'área do Enem')
+      this.LogGeneration(i, 4, Materias, 'Matéria')
+      this.LogGeneration(i, 5, frentes, 'Frente')
+      this.LogGeneration(i, 6, frentes, 'Frente', true)
+      this.LogGeneration(i, 7, frentes, 'Frente', true)
       this.LogGeneration(i, 8, typeCorrect, 'Alternativa')
       if(!this.error) {
         this.value = {

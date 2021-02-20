@@ -2,24 +2,8 @@ import Question from 'App/Models/Question'
 import Simulado from 'App/Models/Simulado'
 import TypesSimulado from 'App/Models/TypesSimulado'
 import { ArrayQuestion, ArraySubjects } from 'App/Types/Sumulados'
+import { Materias } from 'app/Const/Questions'
 
-const valueEnem = [
-  'História',
-  'Geografia',
-  'Filosofia',
-  'Sociologia',
-  'Atualidade',
-  'Química',
-  'Física',
-  'Biologia',
-  'Língua Portuguesa',
-  'Literatura',
-  'Língua Estrangeiras',
-  'Artes',
-  'Educação Física',
-  'Tecnologia da Informação e Comunicação',
-  'Matemática',
-]
 export default class CreateSimulados {
   private name: string
   private type: TypesSimulado
@@ -73,7 +57,7 @@ export default class CreateSimulados {
   }
 
   private async updateQuestion(idSimulate: number) {
-    valueEnem.map((element) => {
+    Materias.map((element) => {
       this.ArraySubjects[element].map(async (value)=>{
         value.quantity_test += 1
         value.history_test.push(idSimulate)
