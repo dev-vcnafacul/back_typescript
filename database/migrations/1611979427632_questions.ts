@@ -2,6 +2,23 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 const EnemArea = ['Ciências Humanas', 'Ciências da Natureza', 'Linguagens', 'Matemática']
 
+const Materias = [
+  'História',
+  'Geografia',
+  'Filosofia',
+  'Sociologia',
+  'Química',
+  'Física',
+  'Biologia',
+  'Língua Portuguesa',
+  'Literatura',
+  'Artes',
+  'Educação Física',
+  'Tecnologia da Informação e Comunicação',
+  'Matemática',
+  'Atualidade',
+]
+
 const frentes = [
   'Botânica e ecologia',
   'Fisiologia animal e origem da vida',
@@ -55,23 +72,7 @@ export default class Questions extends BaseSchema {
       // Areas do Enem, uma boa forma de entender a pergunta
       table.enum('enem_area', EnemArea).notNullable()
       // Dificuldade da questão de 0 a 100
-      table
-        .enum('subjects', [
-          'História',
-          'Geografia',
-          'Filosofia',
-          'Sociologia',
-          'Química',
-          'Física',
-          'Biologia',
-          'Língua Portuguesa',
-          'Literatura',
-          'Artes',
-          'Educação Física',
-          'Tecnologia da Informação e Comunicação',
-          'Matemática',
-        ])
-        .notNullable()
+      table.enum('subjects', Materias).notNullable()
       // Esse Campo precisa se enum com todas as frentes bem listadas
       table.enum('frente_1', frentes).notNullable()
       table.enum('frente_2', frentes).notNullable()
