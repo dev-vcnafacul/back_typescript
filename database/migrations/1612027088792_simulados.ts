@@ -1,5 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
+const definition = ['Completo', 'Área', 'Matéria']
+
 export default class Simulados extends BaseSchema {
   protected tableName = 'simulados'
 
@@ -7,6 +9,7 @@ export default class Simulados extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name').notNullable().unique()
+      table.enum('definition', definition)
       table
         .integer('type_id')
         .unsigned()
