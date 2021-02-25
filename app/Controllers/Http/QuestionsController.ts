@@ -1,14 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
-import ExcelQuestion from 'App/Class/ExcelQuestions'
-import { Correct, EnemArea, Frentes, Subjects } from 'App/Enums/Question'
+import readXlsxFile from 'read-excel-file/node'
+
 import Exam from 'App/Models/Exam'
 import Question from 'App/Models/Question'
+import ExcelQuestion from 'App/Class/Question/ExcelQuestions'
+import { Correct, EnemArea, Frentes, Subjects } from 'App/Enums/Question'
 
 import fs from 'fs'
 
-import readXlsxFile from 'read-excel-file/node'
 export default class QuestionsController {
+
   public async NewQuestion({ auth, request, response }: HttpContextContract) {
     if (!auth.user?.is_teacher) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
@@ -111,12 +113,12 @@ export default class QuestionsController {
     }
 
     const excel = request.file('docx', {
-      size: '1mb',
+      size: '2mb',
       extnames: ['xlsx', 'csv'],
     })
 
     if (!excel) {
-      return 'Please upload file'
+      return response.status(400).json({ error: 'File not found' })
     }
 
     if (excel.hasErrors) {
