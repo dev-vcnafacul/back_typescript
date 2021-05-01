@@ -4,8 +4,8 @@ import readXlsxFile from 'read-excel-file/node'
 
 import Exam from 'App/Models/Exam'
 import Question from 'App/Models/Question'
-import ExcelQuestion from 'App/Class/Question/ExcelQuestions'
-import { Correct, EnemArea, Frentes, Subjects } from 'App/Enums/Question'
+import ExcelQuestion from 'Projetos/BancoQuestoes/ExcelQuestions'
+import { Correct, EnemArea, Frentes, Subjects } from 'Projetos/Enums/Question'
 
 import fs from 'fs'
 
@@ -111,6 +111,7 @@ export default class QuestionsController {
     if (!auth.user?.is_teacher) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
+    
 
     const excel = request.file('docx', {
       size: '2mb',
@@ -120,11 +121,10 @@ export default class QuestionsController {
     if (!excel) {
       return response.status(400).json({ error: 'File not found' })
     }
-
+    
     if (excel.hasErrors) {
       return excel.errors
     }
-
     const name = `${new Date().getTime()}.${excel.extname}`
 
     try {
@@ -136,17 +136,15 @@ export default class QuestionsController {
       response.status(404)
       return err
     }
-
-    const path = __dirname.replace('app/Controllers/Http', `uploads/excel/${name}`)
-
+    
+    const path = __dirname.replace('app\\Controllers\\Http', `uploads\\excel\\${name}`)
     const myFile = await readXlsxFile(path)
-
+    
     const excelClass = new ExcelQuestion(myFile)
     const data = excelClass.verify()
 
     const meuRetorno: string[] = []
     const arrayPromisse: (() => Promise<void>)[] = []
-
     if (!data.error) {
       for (let i = 0; i < data.resp.length; i++) {
         arrayPromisse.push(
@@ -158,21 +156,26 @@ export default class QuestionsController {
             } else if (quest !== null) {
               meuRetorno.push(`{ image: ${data.resp[i].ImagemLink}, error: Imagem já cadastrada}`)
             } else {
-              await Question.create({
-                ImagemLink: data.resp[i].ImagemLink,
-                enem_area: data.resp[i].enemArea,
-                subjects: data.resp[i].materia,
-                frente1: data.resp[i].frente1,
-                frente2: data.resp[i].frente2,
-                frente3: data.resp[i].frente3,
-                exam_id: examId.id,
-                year: data.resp[i].year,
-                correct: data.resp[i].correct,
-              })
+              const question = new Question()
+
+              question.user_id = auth.user?.id || 1
+              question.ImagemLink = data.resp[i].ImagemLink
+              question.exam_id = examId.id
+              question.enem_area = data.resp[i].enemArea
+              question.subjects = data.resp[i].materia
+              question.frente1 = data.resp[i].frente1
+              question.frente2 = data.resp[i].frente2
+              question.frente3 = data.resp[i].frente3
+              question.year = data.resp[i].year
+              question.correct = data.resp[i].correct
+
+              await question.save()
             }
           }
         )
       }
+    } else {
+      return response.status(404).json(data)
     }
     fs.unlinkSync(path)
     await Promise.all(arrayPromisse.map((elem) => elem()))

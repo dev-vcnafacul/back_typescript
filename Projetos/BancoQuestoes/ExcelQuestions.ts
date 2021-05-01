@@ -1,5 +1,5 @@
-import { Indices } from 'App/Types/PlanQuestion'
-import { EnemArea, Materias, frentes } from 'app/Const/Questions'
+import { Indices } from '../Types/PlanQuestion'
+import { EnemArea, Materias, frentes } from './Const/Questions'
 
 const indices = [
   'ImagemLink',
@@ -29,32 +29,25 @@ export default class ExcelQuestion {
     this.errorNext = false
   }
 
-  private LogGeneration(ind1: number, ind2: number, arrayTest: any[], text: string, error?: boolean){
+  private LogGeneration(ind1: number, ind2: number, arrayTest: any[], text: string) : boolean {
     this.errorNext = true
-    arrayTest.map((element) => {
-        if (this.arrayExcel[ind1][ind2] === element) {
-          this.errorNext = false
-        }
-      })
-      this.errorNext = error ? false : this.errorNext
-      if (this.errorNext) {
-        this.error = true
-        this.log.push(`${this.arrayExcel[ind1][ind2]} não é uma ${text} Válida`)
-      }
+    if(!arrayTest.includes(this.arrayExcel[ind1][ind2])){
+      this.log.push(`${this.arrayExcel[ind1][ind2]} não é uma ${text} Válida`)
+      this.errorNext = false
+    }
+    return this.errorNext
   }
 
   public verify() {
-    this.verifyFirstLine(this.arrayExcel[0])
-    if (this.error) {
-      console.log(this.log)
-      // return { log: this.log, resp: this.ArrayReturn, error: this.error }
+    if (this.verifyFirstLine(this.arrayExcel[0])) {
+      return { log: this.log, resp: this.ArrayReturn, error: this.error }
     }
     for (let i = 1; i < this.arrayExcel.length; i++) {
-      this.LogGeneration(i, 3, EnemArea, 'área do Enem')
+      this.LogGeneration(i, 3, EnemArea, 'Área do Enem')
       this.LogGeneration(i, 4, Materias, 'Matéria')
       this.LogGeneration(i, 5, frentes, 'Frente')
-      this.LogGeneration(i, 6, frentes, 'Frente', true)
-      this.LogGeneration(i, 7, frentes, 'Frente', true)
+      this.LogGeneration(i, 6, frentes, 'Frente')
+      this.LogGeneration(i, 7, frentes, 'Frente')
       this.LogGeneration(i, 8, typeCorrect, 'Alternativa')
       if(!this.error) {
         this.value = {
@@ -80,14 +73,14 @@ export default class ExcelQuestion {
     return { log: this.log, resp: this.ArrayReturn, error: this.error }
   }
 
-  private verifyFirstLine(first: any[]) {
+  private verifyFirstLine(first: any[]) : boolean {
     for (let j = 0; j < first.length; j++) {
       if (first[j] !== indices[j]) {
         const logError = `O campo ${first[j]} não é reconhecido, esperado campo ${indices[j]}`
         this.log.push(logError)
-        this.error = true
-        break
+        return true
       }
     }
+    return false
   }
 }

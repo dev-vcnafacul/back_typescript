@@ -1,8 +1,8 @@
-import Question from 'App/Models/Question'
-import Simulado from 'App/Models/Simulado'
-import TypesSimulado from 'App/Models/TypesSimulado'
-import { ArrayQuestion, ArraySubjects } from 'App/Types/Sumulados'
-import { Materias } from 'app/Const/Questions'
+import Question from '../../app/Models/Question'
+import Simulado from '../../app/Models/Simulado'
+import TypesSimulado from '../../app/Models/TypesSimulado'
+import { ArrayQuestion, ArraySubjects } from 'Projetos/Types/Sumulados'
+import { Materias } from '../BancoQuestoes/Const/Questions'
 
 export default class CreateSimulados {
   private name: string
@@ -15,6 +15,8 @@ export default class CreateSimulados {
     this.name = name
     this.type = type
     this.question = question
+
+    this.createSimulate()
   }
 
   private async consultaQuestion() {
@@ -66,7 +68,7 @@ export default class CreateSimulados {
     })
   }
 
-  public async createSimulate(): Promise<Simulado> {
+  private async createSimulate(): Promise<Simulado> {
     this.consultaQuestion()
     this.completeMyQuestion()
 

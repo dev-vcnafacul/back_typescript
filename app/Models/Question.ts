@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { Correct, EnemArea, Frentes, StatusQuestion, Subjects } from 'App/Enums/Question'
+import { Correct, EnemArea, Frentes, StatusQuestion, Subjects } from 'Projetos/Enums/Question'
 
 export default class Question extends BaseModel {
   @column({ isPrimary: true })

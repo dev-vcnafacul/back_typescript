@@ -1,5 +1,5 @@
 import Question from 'App/Models/Question'
-import { AnswerSend, AnswerReceived } from 'App/Types/Answer'
+import { AnswerSend, AnswerReceived } from 'Projetos/Types/Answer'
 
 export default class AnswerSimulate {
   private ObjAnswerStudent: AnswerReceived[]

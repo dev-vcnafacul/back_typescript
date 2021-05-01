@@ -1,4 +1,4 @@
-import { Subjects } from 'App/Enums/Question'
+import { Subjects } from 'Projetos/Enums/Question'
 import Question from 'App/Models/Question'
 
 export type ArrayFrentes = {

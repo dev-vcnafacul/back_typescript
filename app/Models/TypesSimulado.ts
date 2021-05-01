@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { RulesTypes } from 'App/Types/Sumulados'
+import { RulesTypes } from 'Projetos/Types/Sumulados'
 
 export default class TypesSimulado extends BaseModel {
   @column({ isPrimary: true })

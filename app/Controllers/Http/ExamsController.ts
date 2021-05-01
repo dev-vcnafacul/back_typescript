@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import { Location } from 'App/Enums/Location'
+import { Location } from 'Projetos/Enums/Location'
 import Exam from 'App/Models/Exam'
 
 export default class ExamsController {

@@ -1,6 +1,4 @@
-import { Correct, Frentes, Subjects, EnemArea } from "App/Enums/Question";
-
-
+import { Correct, Frentes, Subjects, EnemArea } from "Projetos/Enums/Question";
 
 export type Indices = {
   ImagemLink: string,

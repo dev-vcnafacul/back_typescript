@@ -13,8 +13,8 @@ export enum Correct {
 }
 
 export enum EnemArea {
-  CienciaHumana = 'Ciências Humanas',
-  CienciaNatureza = 'Ciências da Natureza',
+  CienciaHumana = 'Ciências Humanas',
+  CienciaNatureza = 'Ciências da Natureza',
   Linguagem = 'Linguagens',
   Matematica = 'Matemática',
 }
@@ -29,7 +29,7 @@ export enum Subjects {
   Biologia = 'Biologia',
   LinguaPortuguesa = 'Língua Portuguesa',
   Literatura = 'Literatura',
-  LinguaEstrangeiras = 'Língua Estrangeiras',
+  LinguaEstrangeiras = 'Língua Estrangeira',
   Artes = 'Artes',
   EducacaFisica = 'Educação Física',
   TecnologiaInformacaoComunicacao = 'Tecnologia da Informação e Comunicação',
@@ -39,8 +39,8 @@ export enum Subjects {
 
 export enum Frentes {
   BotanicaEcologia = 'Botânica e Ecologia',
-  FisiologiaAnimalOrigemVida = 'Fisiologia animal e origem da vida',
-  MetabolismoCelularBioquimicaGenetica = 'Metabolismo celular, Bioquímica e Genética',
+  FisiologiaAnimalOrigemVida = 'Fisiologia Animal e Origem da Vida',
+  MetabolismoCelularBioquimicaGenetica = 'Metabolismo Celular, Bioquímica e Genética',
   Eletromagnetismo = 'Eletromagnetismo',
   Mecanica = 'Mecânica',
   OpticaTermica = 'Óptica e Térmica',
@@ -63,5 +63,6 @@ export enum Frentes {
   Ingles = 'Inglês',
   Literatura = 'Literatura',
   LeituraProducaoTexto = 'Leitura e Produção de Texto',
-  TecnologiasInformacaoComunicacao = 'Tecnologias da Informação e Comunicação',
+  TecnologiasInformacaoComunicacao = 'Tecnologia da Informação e Comunicação',
+  EducacaFisica = 'Educação Física'
 }

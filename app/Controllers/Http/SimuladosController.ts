@@ -1,11 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import AnswerSimulate from 'App/Class/Simulados/AnswerSimulate'
-import CreateSimulados from 'App/Class/Simulados/CreateSimulados'
-import { Subjects } from 'App/Enums/Question'
+import AnswerSimulate from 'Projetos/Simulados/AnswerSimulate'
+import CreateSimulados from 'Projetos/Simulados/CreateSimulados'
+import { Subjects } from 'Projetos/Enums/Question'
 import Simulado from 'App/Models/Simulado'
 import TypesSimulado from 'App/Models/TypesSimulado'
-import { AnswerReceived, AnswerSend } from 'App/Types/Answer'
+import { AnswerReceived, AnswerSend } from 'Projetos/Types/Answer'
 
 export default class SimuladosController {
   public async createTypes({ auth, request, response }: HttpContextContract) {
@@ -75,9 +75,7 @@ export default class SimuladosController {
 
     const ObjmyNewSimulate = new CreateSimulados(data.name, type, data.questions)
 
-    const myNewSimulate = await ObjmyNewSimulate.createSimulate()
-
-    return response.status(200).send(myNewSimulate)
+    return response.status(200).send(ObjmyNewSimulate)
   }
 
   public async callSimulate({ params }: HttpContextContract) {
