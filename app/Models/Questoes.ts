@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { Correct, EnemArea, Frentes, StatusQuestion, Subjects } from 'Projetos/Enums/Question'
+import { Alternativa, EnemArea, Frentes, StatusQuestion, Materias } from '../../Projetos/BancoQuestoes/Enums/Questoes'
 
-export default class Question extends BaseModel {
+export default class Questoes extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -13,43 +13,43 @@ export default class Question extends BaseModel {
   public exam_id: number
 
   @column()
-  public ImagemLink: string
+  public Imagem_link: string
 
   @column()
   public enem_area: EnemArea
 
   @column()
-  public subjects: Subjects
+  public materia: Materias
 
   @column()
-  public frente1: Frentes
+  public frente_1: Frentes
 
   @column()
-  public frente2: Frentes
+  public frente_2: Frentes
 
   @column()
-  public frente3: Frentes
+  public frente_3: Frentes
 
   @column({ serializeAs: null })
-  public difficulty: number
+  public dificuldade: number
 
   @column({ serializeAs: null })
-  public quantity: number
+  public vezesRespondida: number
 
   @column({ serializeAs: null })
-  public quantity_test: number
+  public quantidadeTestes: number
 
   @column({ serializeAs: null })
-  public history_test: number[]
+  public historico: number[]
 
   @column()
-  public year: number
+  public ano: number
 
   @column({ serializeAs: null })
   public status: StatusQuestion
 
   @column({ serializeAs: null })
-  public correct: Correct
+  public alternativa: Alternativa
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

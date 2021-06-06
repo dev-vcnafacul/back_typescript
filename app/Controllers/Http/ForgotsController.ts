@@ -38,7 +38,7 @@ export default class ForgotsController {
         .to(user.email)
         .subject('Esqueci a Senha - Você na Facul')
         .htmlView('forgot.edge', {
-          name: user.first_name,
+          nome: user.nome,
           token: resetPasswordUrl,
         })
     })

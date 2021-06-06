@@ -1,5 +1,5 @@
-import { Indices } from '../Types/PlanQuestion'
-import { EnemArea, Materias, frentes } from './Const/Questions'
+import { Indices } from './Tipos/PlanQuestion'
+import { EnemArea, Materias, frentes } from './Const/ConstantesImportantesEnem'
 
 const indices = [
   'ImagemLink',
@@ -53,13 +53,13 @@ export default class ExcelQuestion {
         this.value = {
           ImagemLink: this.arrayExcel[i][0],
           exam: this.arrayExcel[i][1],
-          year: this.arrayExcel[i][2],
+          ano: this.arrayExcel[i][2],
           enemArea: this.arrayExcel[i][3],
           materia: this.arrayExcel[i][4],
           frente1: this.arrayExcel[i][5],
           frente2: this.arrayExcel[i][6],
           frente3: this.arrayExcel[i][7],
-          correct: this.arrayExcel[i][8],
+          alternativa: this.arrayExcel[i][8],
         }
 
         try {

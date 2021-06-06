@@ -84,3 +84,9 @@ export const Enem = {
     Matemática: ['Aritmética e Algebra', 'Financeira e Trigonometria', 'Geometria'],
   },
 }
+
+export const StatusQuestion = [
+  'aprovada',
+  'reprovada',
+  'pendente',
+]

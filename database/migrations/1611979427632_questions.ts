@@ -1,8 +1,8 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
-import { EnemArea, Materias, frentes } from '../../Projetos/BancoQuestoes/Const/Questions'
+import { EnemArea, Materias, frentes, StatusQuestion } from '../../Projetos/BancoQuestoes/Const/ConstantesImportantesEnem'
 
 export default class Questions extends BaseSchema {
-  protected tableName = 'questions'
+  protected tableName = 'questoes'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -25,22 +25,22 @@ export default class Questions extends BaseSchema {
       // Areas do Enem, uma boa forma de entender a pergunta
       table.enum('enem_area', EnemArea).notNullable()
       // Dificuldade da questão de 0 a 100
-      table.enum('subjects', Materias).notNullable()
+      table.enum('materia', Materias).notNullable()
       // Esse Campo precisa se enum com todas as frentes bem listadas
       table.enum('frente_1', frentes).notNullable()
       table.enum('frente_2', frentes).notNullable()
       table.enum('frente_3', frentes).notNullable()
       // Toda questão é cadastrada como pendente e precisa ser aprovada por um adm/professor
-      table.integer('difficulty').defaultTo(0).notNullable()
+      table.integer('dificuldade').defaultTo(0).notNullable()
       // Quantidades de vezes que essa questão foi respondida
-      table.integer('quantity').defaultTo(0).notNullable()
+      table.integer('vezesRespondida').defaultTo(0).notNullable()
       // Quantidade de vezes que essa questão apareceu em simulados diferentes
-      table.integer('quantity_test').defaultTo(0).notNullable()
-      table.json('history_test').defaultTo(0).notNullable()
+      table.integer('quantidadeTestes').defaultTo(0).notNullable()
+      table.json('historico').defaultTo(0).notNullable()
       // Que ano
-      table.integer('year').notNullable()
-      table.enum('status', ['aprovada', 'reprovada', 'pendente']).defaultTo('aprovada')
-      table.enum('correct', ['A', 'B', 'C', 'D', 'E']).notNullable()
+      table.integer('ano').notNullable()
+      table.enum('status', StatusQuestion).defaultTo('aprovada')
+      table.enum('alternativa', ['A', 'B', 'C', 'D', 'E']).notNullable()
       table.timestamps(true)
     })
   }

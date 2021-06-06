@@ -3,41 +3,41 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import readXlsxFile from 'read-excel-file/node'
 
 import Exam from 'App/Models/Exam'
-import Question from 'App/Models/Question'
-import ExcelQuestion from 'Projetos/BancoQuestoes/ExcelQuestions'
-import { Correct, EnemArea, Frentes, Subjects } from 'Projetos/Enums/Question'
+import Questao from 'App/Models/Questoes'
+import ExcelQuestion from '../../../Projetos/BancoQuestoes/ExcelQuestions'
+import { Alternativa, EnemArea, Frentes, Materias } from '../../../Projetos/BancoQuestoes/Enums/Questoes'
 
 import fs from 'fs'
 
 export default class QuestionsController {
 
-  public async NewQuestion({ auth, request, response }: HttpContextContract) {
-    if (!auth.user?.is_teacher) {
+  public async NovaQuestao({ auth, request, response }: HttpContextContract) {
+    if (!auth.user?.professor) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
     const validationSchema = schema.create({
-      enemArea: schema.enum(Object.values(EnemArea)),
-      subjects: schema.enum(Object.values(Subjects)),
-      frente1: schema.enum(Object.values(Frentes)),
-      frente2: schema.enum(Object.values(Frentes)),
-      frente3: schema.enum(Object.values(Frentes)),
-      year: schema.number(),
-      examId: schema.number(),
-      correct: schema.enum(Object.values(Correct)),
+      enem_area: schema.enum(Object.values(EnemArea)),
+      materia: schema.enum(Object.values(Materias)),
+      frente_1: schema.enum(Object.values(Frentes)),
+      frente_2: schema.enum(Object.values(Frentes)),
+      frente_3: schema.enum(Object.values(Frentes)),
+      ano: schema.number(),
+      exam_id: schema.number(),
+      alternativa: schema.enum(Object.values(Alternativa)),
     })
 
     const questionDetails = await request.validate({
       schema: validationSchema,
     })
 
-    const myExam = await Exam.findBy('id', questionDetails.examId)
+    const myExam = await Exam.findBy('id', questionDetails.exam_id)
 
     if (myExam === null) {
       return response.status(400).json({ msg: 'O Exame selecionado não encontrado em nossa base' })
     }
 
-    const myImage = request.file('question', {
+    const myImage = request.file('image', {
       size: '0.2mb',
       extnames: ['jpg', 'png', 'jpeg'],
     })
@@ -62,34 +62,36 @@ export default class QuestionsController {
       return myImage.errors
     }
 
-    const question = new Question()
+    const questao = new Questao()
 
-    question.user_id = auth.user.id
-    question.ImagemLink = name
-    question.exam_id = questionDetails.examId
-    question.enem_area = questionDetails.enemArea
-    question.subjects = questionDetails.subjects
-    question.frente1 = questionDetails.frente1
-    question.frente2 = questionDetails.frente2
-    question.frente3 = questionDetails.frente3
-    question.year = questionDetails.year
-    question.correct = questionDetails.correct
+    questao.user_id = auth.user.id
+    questao.Imagem_link = name
+    questao.exam_id = questionDetails.exam_id
+    questao.enem_area = questionDetails.enem_area
+    questao.materia = questionDetails.materia
+    questao.frente_1 = questionDetails.frente_1
+    questao.frente_2 = questionDetails.frente_2
+    questao.frente_3 = questionDetails.frente_3
+    questao.ano = questionDetails.ano
+    questao.alternativa = questionDetails.alternativa
 
-    await question.save()
+    console.log(questao.toJSON())
 
-    return question
+    await questao.save()
+
+    return questao
   }
 
-  public async DeleteQuestion({ auth, params, response }: HttpContextContract) {
-    if (!auth.user?.is_teacher) {
+  public async DeletarQuestao({ auth, params, response }: HttpContextContract) {
+    if (!auth.user?.professor) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
-    const IdQuestion = params.id
+    const IdQuestao = params.id
 
-    const question = await Question.findByOrFail('id', IdQuestion)
+    const question = await Questao.findByOrFail('id', IdQuestao)
 
-    const path = __dirname.replace('app/Controllers/Http', `uploads/images/${question.ImagemLink}`)
+    const path = __dirname.replace('app/Controllers/Http', `uploads/images/${question.Imagem_link}`)
 
     try {
       fs.unlinkSync(path)
@@ -99,16 +101,17 @@ export default class QuestionsController {
     }
   }
 
-  public async SelectQuestion({ params, response }: HttpContextContract) {
-    const idQuestion = params.id
+  public async SelecionarQuestao({ params, response }: HttpContextContract) {
+    const IdQuestao = params.id
 
-    const question = await Question.findByOrFail('id', idQuestion)
+    const questao = await Questao.findByOrFail('id', IdQuestao)
 
-    return response.json(question)
+    return response.json(questao)
   }
 
+  // Função precisa ser revisada ... 
   public async XlsxUploadQuestion({ auth, request, response }: HttpContextContract) {
-    if (!auth.user?.is_teacher) {
+    if (!auth.user?.professor) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
     
@@ -150,24 +153,24 @@ export default class QuestionsController {
         arrayPromisse.push(
           async (): Promise<void> => {
             const examId = await Exam.findBy('exam', data.resp[i].exam)
-            const quest = await Question.findBy('imagem_link', data.resp[i].ImagemLink)
+            const quest = await Questao.findBy('imagem_link', data.resp[i].ImagemLink)
             if (examId === null) {
               meuRetorno.push(`${data.resp[i].exam} não existe no sistema`)
             } else if (quest !== null) {
               meuRetorno.push(`{ image: ${data.resp[i].ImagemLink}, error: Imagem já cadastrada}`)
             } else {
-              const question = new Question()
+              const question = new Questao()
 
               question.user_id = auth.user?.id || 1
-              question.ImagemLink = data.resp[i].ImagemLink
+              question.Imagem_link = data.resp[i].ImagemLink
               question.exam_id = examId.id
               question.enem_area = data.resp[i].enemArea
-              question.subjects = data.resp[i].materia
-              question.frente1 = data.resp[i].frente1
-              question.frente2 = data.resp[i].frente2
-              question.frente3 = data.resp[i].frente3
-              question.year = data.resp[i].year
-              question.correct = data.resp[i].correct
+              question.materia = data.resp[i].materia
+              question.frente_1 = data.resp[i].frente1
+              question.frente_2 = data.resp[i].frente2
+              question.frente_3 = data.resp[i].frente3
+              question.ano = data.resp[i].ano
+              question.alternativa = data.resp[i].alternativa
 
               await question.save()
             }
@@ -181,11 +184,8 @@ export default class QuestionsController {
     await Promise.all(arrayPromisse.map((elem) => elem()))
     return meuRetorno
   }
-
-  public async ListAllQuestion({ response }: HttpContextContract) {
-    console.log('list')
-    const data = await Question.all()
-
-    return response.json(data)
+  
+  public async ListarQuestoes({ response }: HttpContextContract) {
+    return response.json(await Questao.all())
   }
 }

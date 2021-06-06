@@ -15,31 +15,31 @@ export default class User extends BaseModel {
   public password: string
 
   @column()
-  public first_name: string
+  public nome: string
 
   @column()
-  public last_name: string
+  public sobrenome: string
 
   @column()
-  public phone: string
+  public telefone: string
 
   @column()
-  public gender: string
+  public genero: string
 
   @column()
-  public birthday: Date
+  public nascimento: Date
 
   @column()
-  public state: string
+  public estado: string
 
   @column()
-  public city: string
+  public cidade: string
 
   @column()
-  public is_teacher: boolean
+  public professor: boolean
 
   @column()
-  public about: string
+  public sobre: string
 
   @column()
   public rememberMeToken?: string

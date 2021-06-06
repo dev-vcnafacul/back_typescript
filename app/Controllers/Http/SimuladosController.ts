@@ -1,15 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import AnswerSimulate from 'Projetos/Simulados/AnswerSimulate'
-import CreateSimulados from 'Projetos/Simulados/CreateSimulados'
-import { Subjects } from 'Projetos/Enums/Question'
+import RespostasSimulado from 'Projetos/Simulados/RespostasSimulado'
+import CriarSimulado from 'Projetos/Simulados/CriarSimulados'
+import { Materias } from 'Projetos/BancoQuestoes/Enums/Questoes'
 import Simulado from 'App/Models/Simulado'
-import TypesSimulado from 'App/Models/TypesSimulado'
-import { AnswerReceived, AnswerSend } from 'Projetos/Types/Answer'
+import TipoSimulado from 'App/Models/TipoSimulado'
+import { Resposta, RespostaCorreta } from 'Projetos/Simulados/Tipos/Resposta'
 
 export default class SimuladosController {
-  public async createTypes({ auth, request, response }: HttpContextContract) {
-    if (!auth.user?.is_teacher && !auth.user?.admin) {
+
+  public async CriarTipo({ auth, request, response }: HttpContextContract) {
+    if (!auth.user?.professor && !auth.user?.admin) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
@@ -18,8 +19,8 @@ export default class SimuladosController {
       question: schema.number(),
       rules: schema.array().members(
         schema.object().members({
-          subjects: schema.enum(Object.values(Subjects)),
-          quantify: schema.number(),
+          materia: schema.enum(Object.values(Materias)),
+          quantidade: schema.number(),
         })
       ),
     })
@@ -28,68 +29,70 @@ export default class SimuladosController {
       schema: validationSchema,
     })
 
-    const type = new TypesSimulado()
+    const tipo = new TipoSimulado()
 
-    type.name = typeDetails.name
-    type.question = typeDetails.question
-    type.rules = typeDetails.rules
+    tipo.nome = typeDetails.name
+    tipo.quantidadeTotalQuestoes = typeDetails.question
+    tipo.regra = typeDetails.rules
 
-    type.save()
+    tipo.save()
 
-    return response.status(200).json(type)
+    return response.status(200).json(tipo)
   }
 
-  public async delTypes({ auth, params, response }: HttpContextContract) {
-    if (!auth.user?.is_teacher && !auth.user?.admin) {
+  public async DeletarTipo({ auth, params, response }: HttpContextContract) {
+    if (!auth.user?.professor && !auth.user?.admin) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
     const idType = params.id
 
-    const type = await TypesSimulado.findByOrFail('id', idType)
+    const type = await TipoSimulado.findByOrFail('id', idType)
 
     type.delete()
   }
 
-  public async listTypes({ response }: HttpContextContract) {
-    const allTypes = await TypesSimulado.all()
+  public async ListarTipos({ response }: HttpContextContract) {
+    const allTypes = await TipoSimulado.all()
 
     return response.json(allTypes)
   }
 
-  public async createSimulado({ auth, request, response }: HttpContextContract) {
-    if (!auth.user?.is_teacher && !auth.user?.admin) {
+  public async CriarSimulado({ auth, request, response }: HttpContextContract) {
+    if (!auth.user?.professor && !auth.user?.admin) {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
     const validationSchema = schema.create({
-      name: schema.string({}, [rules.unique({ table: 'simulados', column: 'name' })]),
-      idtype: schema.number(),
-      questions: schema.array().members(schema.number()),
+      nome: schema.string({}, [rules.unique({ table: 'simulados', column: 'nome' })]),
+      idTipo: schema.number(),
+      questoes: schema.array().members(schema.number()),
     })
 
     const data = await request.validate({
       schema: validationSchema,
     })
 
-    const type = await TypesSimulado.findByOrFail('id', data.idtype)
+    const tipo = await TipoSimulado.findByOrFail('id', data.idTipo)
 
-    const ObjmyNewSimulate = new CreateSimulados(data.name, type, data.questions)
+    const Simulado = new CriarSimulado(data.nome, tipo, data.questoes)
 
-    return response.status(200).send(ObjmyNewSimulate)
+    const idSimulado = Simulado.CriarSimulados()
+
+    return response.status(200).send(idSimulado)
   }
 
-  public async callSimulate({ params }: HttpContextContract) {
-    const mySimulate = await Simulado.findOrFail('id', params.id)
+  public async ChamarSimulado({ params }: HttpContextContract) {
+    const meuSimulado = await Simulado.findOrFail('id', params.id)
 
-    return mySimulate
+    return meuSimulado
   }
 
-  public async answersimulate({ request }: HttpContextContract): Promise<AnswerSend[]> {
+  public async RespostaSimulado({ request }: HttpContextContract): Promise<RespostaCorreta[]> {
     const validationSchema = schema.create({
       ObjAnswer: schema.array().members(
         schema.object().members({
-          idQuestion: schema.number(),
-          studentAnswer: schema.string(),
+          idQuestao: schema.number(),
+          RespostaEstudante: schema.string(),
         })
       ),
     })
@@ -98,12 +101,12 @@ export default class SimuladosController {
       schema: validationSchema,
     })
 
-    const ObjAnswerReceived: AnswerReceived[] = request.input('ObjAnswer')
+    const ObjRespostasRecebidas: Resposta[] = request.input('ObjResposta')
 
-    const ObjAnswer = new AnswerSimulate(ObjAnswerReceived)
+    const ObjResposta = new RespostasSimulado(ObjRespostasRecebidas)
 
-    const Answer = await ObjAnswer.myAnswer()
+    const Resposta = await ObjResposta.VerificandoResposta()
 
-    return Answer
+    return Resposta
   }
 }

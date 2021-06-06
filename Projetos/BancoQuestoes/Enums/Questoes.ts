@@ -4,7 +4,7 @@ export enum StatusQuestion {
   pendente = 'pendente',
 }
 
-export enum Correct {
+export enum Alternativa {
   A = 'A',
   B = 'B',
   C = 'C',
@@ -19,7 +19,7 @@ export enum EnemArea {
   Matematica = 'Matemática',
 }
 
-export enum Subjects {
+export enum Materias {
   Historia = 'História',
   Geografia = 'Geografia',
   Filosofia = 'Filosofia',

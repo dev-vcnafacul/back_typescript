@@ -1,4 +1,4 @@
-export enum Location {
+export enum Localizacao {
   AC = 'AC',
   AL = 'AL',
   AP = 'AP',

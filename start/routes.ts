@@ -9,24 +9,24 @@ Route.patch('/patchadmin', 'AuthController.patchAdmin').middleware('auth')
 Route.post('/forgot', 'ForgotsController.forgot')
 Route.patch('/reset', 'ForgotsController.reset')
 
-Route.post('/newexam', 'ExamsController.NewExam').middleware('auth')
+Route.post('/novoexame', 'ExamsController.NovoExame').middleware('auth')
 Route.delete('/delexam/:id', 'ExamsController.DelExam').middleware('auth')
-Route.get('/listexam', 'ExamsController.ListExam').middleware('auth')
+Route.get('/listarexams', 'ExamsController.ListarExams').middleware('auth')
 
-Route.post('/newquetion', 'QuestionsController.NewQuestion').middleware('auth')
-Route.delete('/deletequetion/:id', 'QuestionsController.DeleteQuestion').middleware('auth')
-Route.get('/selectquestion/:id', 'QuestionsController.SelectQuestion').middleware('auth')
+Route.post('/novaquestao', 'QuestionsController.NovaQuestao').middleware('auth')
+Route.delete('/deletequetion/:id', 'QuestionsController.DeletarQuestao').middleware('auth')
+Route.get('/selectquestion/:id', 'QuestionsController.SelecionarQuestao').middleware('auth')
 
-Route.get('/listallquestion', 'QuestionsController.ListAllQuestion')
+Route.get('/listallquestion', 'QuestionsController.ListarQuestoes')
 
 Route.post('/xlsx', 'QuestionsController.XlsxUploadQuestion').middleware('auth')
 
 Route.get('/allenem', 'EnemsController.AllEnem').middleware('auth')
 
-Route.post('/newtypesimulate', 'SimuladosController.createTypes').middleware('auth')
-Route.delete('/deltypesimulate/:id', 'SimuladosController.delTypes').middleware('auth')
-Route.get('/listtypesimulate', 'SimuladosController.listTypes').middleware('auth')
+Route.post('/newtypesimulate', 'SimuladosController.CriarTipo').middleware('auth')
+Route.delete('/deltypesimulate/:id', 'SimuladosController.DeletarTipo').middleware('auth')
+Route.get('/listtypesimulate', 'SimuladosController.ListarTipos').middleware('auth')
 
-Route.post('/newsimulate', 'SimuladosController.createSimulado').middleware('auth')
-Route.get('/callsimulate/:id', 'SimuladosController.callSimulate').middleware('auth')
-Route.post('/answersimulate', 'SimuladosController.answersimulate').middleware('auth')
+Route.post('/newsimulate', 'SimuladosController.CriarSimulado').middleware('auth')
+Route.get('/callsimulate/:id', 'SimuladosController.ChamarSimulado').middleware('auth')
+Route.post('/answersimulate', 'SimuladosController.RespostaSimulado').middleware('auth')

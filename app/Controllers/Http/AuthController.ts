@@ -13,17 +13,17 @@ export default class AuthController {
         rules.unique({ table: 'users', column: 'email' }),
       ]),
       password: schema.string({ trim: true }, [rules.confirmed()]),
-      first_name: schema.string({ trim: true }),
-      last_name: schema.string({}),
-      phone: schema.string({ trim: true }),
-      gender: schema.string({}),
-      birthday: schema.date({}),
-      state: schema.string({}),
-      city: schema.string({}),
-      is_teacher: schema.boolean(),
+      nome: schema.string({ trim: true }),
+      sobrenome: schema.string({}),
+      telefone: schema.string({ trim: true }),
+      genero: schema.string({}),
+      nascimento: schema.date({}),
+      estado: schema.string({}),
+      cidade: schema.string({}),
+      professor: schema.boolean(),
     })
 
-    const { about } = request.only(['about'])
+    const { sobre } = request.only(['sobre'])
 
     const userDetails = await request.validate({
       schema: validationSchema,
@@ -35,15 +35,15 @@ export default class AuthController {
     const user = new User()
     user.email = userDetails.email
     user.password = userDetails.password
-    user.first_name = userDetails.first_name
-    user.last_name = userDetails.last_name
-    user.phone = userDetails.phone
-    user.gender = userDetails.gender
-    user.birthday = userDetails.birthday.toJSDate()
-    user.state = userDetails.state
-    user.city = userDetails.city
-    user.is_teacher = userDetails.is_teacher
-    user.about = about
+    user.nome = userDetails.nome
+    user.sobrenome = userDetails.sobrenome
+    user.telefone = userDetails.telefone
+    user.genero = userDetails.genero
+    user.nascimento = userDetails.nascimento.toJSDate()
+    user.estado = userDetails.estado
+    user.cidade = userDetails.cidade
+    user.professor = userDetails.professor
+    user.sobre = sobre
     await user.save()
 
     return response.status(200).json(user)
@@ -63,14 +63,14 @@ export default class AuthController {
   public async me({ auth, response }: HttpContextContract) {
     return response.status(200).json({
       email: auth.user?.email,
-      first_name: auth.user?.first_name,
-      last_name: auth.user?.last_name,
-      gender: auth.user?.gender,
-      phone: auth.user?.phone,
-      birthday: auth.user?.birthday,
-      state: auth.user?.state,
-      city: auth.user?.city,
-      is_teacher: auth.user?.is_teacher,
+      nome: auth.user?.nome,
+      sobrenome: auth.user?.sobrenome,
+      genero: auth.user?.genero,
+      telefone: auth.user?.telefone,
+      nascimento: auth.user?.nascimento,
+      estado: auth.user?.estado,
+      cidade: auth.user?.cidade,
+      professor: auth.user?.professor,
     })
   }
 
@@ -79,14 +79,14 @@ export default class AuthController {
 
     const data = request.all()
 
-    user.first_name = data.first_name || user.first_name
-    user.last_name = data.last_name || user.last_name
-    user.phone = data.phone || user.phone
-    user.gender = data.gender || user.gender
-    user.birthday = data.birthday || user.birthday
-    user.state = data.state || user.state
-    user.city = data.city || user.city
-    user.about = data.about || user.about
+    user.nome = data.nome || user.nome
+    user.sobrenome = data.sobrenome || user.sobrenome
+    user.telefone = data.telefone || user.telefone
+    user.genero = data.genero || user.genero
+    user.nascimento = data.nascimento || user.nascimento
+    user.estado = data.estado || user.estado
+    user.cidade = data.cidade || user.cidade
+    user.sobre = data.sobre || user.sobre
 
     await user.save()
 

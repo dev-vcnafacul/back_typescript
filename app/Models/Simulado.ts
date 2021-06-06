@@ -1,22 +1,22 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { ArrayQuestion } from 'Projetos/Types/Sumulados'
+import { ArrayQuestoes } from 'Projetos/Simulados/Tipos/Simulados'
 
 export default class Simulado extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public name: string
+  public nome: string
 
   @column()
-  public type: number
+  public tipo: number
 
   @column()
-  public questions: ArrayQuestion
-
+  public questoes: ArrayQuestoes
+  // MÉDIA DE ACERTOS POR PESSOA --- FAZ SENTIDO GUARDAR ASSIM?
   @column()
-  public idGood: number
+  public aproveitamento: number
 
   @column()
   public available: boolean

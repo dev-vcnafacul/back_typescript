@@ -8,14 +8,14 @@ let send = {
   email: 'anotherTest2@gmail.com',
   password: '123456',
   password_confirmation: '123456',
-  first_name: 'Test',
-  last_name: 'Adonis',
-  phone: '(11)9xxxx-xxxx',
-  gender: 'Male',
-  birthday: '1989-06-26',
-  state: 'SP',
-  city: 'São Paulo',
-  is_teacher: 1,
+  nome: 'Test',
+  sobrenome: 'Adonis',
+  telefone: '(11)9xxxx-xxxx',
+  genero: 'Masculino',
+  nascimento: '1989-06-26',
+  estade: 'SP',
+  cidade: 'São Paulo',
+  professor: 1,
 }
 
 test.group('Question', (group) => {
@@ -23,14 +23,14 @@ test.group('Question', (group) => {
     const user = new User()
     user.email = send.email
     user.password = send.password
-    user.first_name = send.first_name
-    user.last_name = send.last_name
-    user.phone = send.phone
-    user.gender = send.gender
-    user.birthday = new Date()
-    user.state = send.state
-    user.city = send.city
-    user.is_teacher = true
+    user.nome = send.nome
+    user.sobrenome = send.sobrenome
+    user.telefone = send.telefone
+    user.genero = send.genero
+    user.nascimento = new Date()
+    user.estado = send.estade
+    user.cidade = send.cidade
+    user.professor = true
     user.admin = true
     await user.save()
   })
@@ -42,28 +42,30 @@ test.group('Question', (group) => {
     })
 
     await supertest(BASE_URL)
-      .post('/newexam')
+      .post('/novoexame')
       .expect(200)
-      .send({ exam: 'enem', location: 'BR' })
+      .send({ exam: 'enem', localizacao: 'BR' })
       .set({ Authorization: `bearer ${login.body.token.token}` })
 
-    const pathImage = __dirname + '/ImageTest.png'
+    const pathImage = __dirname + '/ImageTest.jpg'
 
     const responseQuestion = await supertest(BASE_URL)
-      .post('/newquetion')
-      .expect(200)
-      .field('enemArea', 'Ciências Humanas')
-      .field('subjects', 'História')
-      .field('frente1', 'História do Brasil')
-      .field('frente2', 'Atualidade')
-      .field('frente3', 'Literatura')
-      .field('year', 2019)
-      .field('examId', 2)
-      .field('correct', 'A')
-      .attach('question', pathImage)
+      .post('/novaquestao')
+      .expect(422)
+      .field('enem_area', 'Ciências Humanas')
+      .field('materia', 'História')
+      .field('frente_1', 'História do Brasil')
+      .field('frente_2', 'Atualidade')
+      .field('frente_3', 'Literatura')
+      .field('ano', 2019)
+      .field('exam_id', 2)
+      .field('alternativa', 'A')
+      .attach('image', pathImage)
       .set({ Authorization: `bearer ${login.body.token.token}` })
 
-    const selectQuestion = await supertest(BASE_URL)
+    console.log(responseQuestion.body)
+
+    /* const selectQuestion = await supertest(BASE_URL)
       .get(`/selectquestion/${responseQuestion.body.id}`)
       .expect(200)
       .set({ Authorization: `bearer ${login.body.token.token}` })
@@ -73,6 +75,6 @@ test.group('Question', (group) => {
     await supertest(BASE_URL)
       .delete(`/deletequetion/${responseQuestion.body.id}`)
       .expect(200)
-      .set({ Authorization: `bearer ${login.body.token.token}` })
-  })
+      .set({ Authorization: `bearer ${login.body.token.token}` })*/
+  }) 
 })

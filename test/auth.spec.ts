@@ -7,27 +7,27 @@ let send = {
   email: 'test@gmail.com',
   password: '123456',
   password_confirmation: '123456',
-  first_name: 'Test',
-  last_name: 'Adonis',
-  phone: '(11)9xxxx-xxxx',
-  gender: 'Male',
-  birthday: '1989-06-26',
-  state: 'SP',
-  city: 'São Paulo',
-  is_teacher: 0,
+  nome: 'Test',
+  sobrenome: 'Adonis',
+  telefone: '(11)9xxxx-xxxx',
+  genero: 'Masculino',
+  nascimento: '1989-06-26',
+  estado: 'SP',
+  cidade: 'São Paulo',
+  professor: 0,
 }
 
 const fields = [
   'email',
   'password',
-  'first_name',
-  'last_name',
-  'phone',
-  'gender',
-  'birthday',
-  'state',
-  'city',
-  'is_teacher',
+  'nome',
+  'sobrenome',
+  'telefone',
+  'genero',
+  'nascimento',
+  'estado',
+  'cidade',
+  'professor',
 ]
 
 test.group('Auth', () => {
@@ -35,6 +35,7 @@ test.group('Auth', () => {
     const data = await supertest(BASE_URL).post('/register').expect(200).send(send)
     assert.equal(data.body.email, send.email)
   })
+
   test('register without nothing', async (assert) => {
     const newsend = {}
     const data = await supertest(BASE_URL).post('/register').expect(422).send(newsend)
@@ -100,19 +101,19 @@ test.group('Auth', () => {
     assert.exists(responseMe.body.email)
   })
 
-  test('patchme change first_name', async (assert) => {
+  test('patchme change nome', async (assert) => {
     const login6 = { email: 'test@gmail.com', password: '123456' }
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send(login6)
 
     await supertest(BASE_URL)
       .patch('/patchme')
       .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
-      .send({ first_name: 'Teste' })
+      .send({ nome: 'Teste' })
 
     const responseMe = await supertest(BASE_URL)
       .get('/me')
       .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
 
-    assert.equal(responseMe.body.first_name, 'Teste')
+    assert.equal(responseMe.body.nome, 'Teste')
   })
 })

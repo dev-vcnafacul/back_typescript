@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { Location } from 'Projetos/Enums/Location'
+import { Localizacao } from '../../Projetos/BancoQuestoes/Enums/EnumLocalizacao'
 
 export default class Exam extends BaseModel {
   @column({ isPrimary: true })
@@ -13,7 +13,7 @@ export default class Exam extends BaseModel {
   public exam: string
 
   @column()
-  public location: Location
+  public localizacao: Localizacao
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

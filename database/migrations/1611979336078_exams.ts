@@ -15,7 +15,7 @@ export default class Exams extends BaseSchema {
         .onDelete('CASCADE')
       table.string('exam').unique().notNullable()
       table
-        .enum('location', [
+        .enum('localizacao', [
           'AC',
           'AL',
           'AP',

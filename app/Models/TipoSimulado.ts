@@ -1,19 +1,19 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { RulesTypes } from 'Projetos/Types/Sumulados'
+import { RulesTypes } from 'Projetos/Simulados/Tipos/Simulados'
 
-export default class TypesSimulado extends BaseModel {
+export default class TipoSimulado extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public name: string
+  public nome: string
 
   @column()
-  public question: number
+  public quantidadeTotalQuestoes: number
 
   @column()
-  public rules: RulesTypes[]
+  public regra: RulesTypes[]
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
