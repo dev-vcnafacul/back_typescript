@@ -63,8 +63,6 @@ test.group('Question', (group) => {
       .attach('image', pathImage)
       .set({ Authorization: `bearer ${login.body.token.token}` })
 
-    console.log(responseQuestion.body)
-
     const selectQuestion = await supertest(BASE_URL)
       .get(`/selecionarquestao/${responseQuestion.body.id}`)
       .expect(200)
@@ -76,5 +74,5 @@ test.group('Question', (group) => {
       .delete(`/deletarquestao/${responseQuestion.body.id}`)
       .expect(200)
       .set({ Authorization: `bearer ${login.body.token.token}` })
-  }) 
+  })
 })

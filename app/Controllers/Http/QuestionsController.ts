@@ -86,17 +86,23 @@ export default class QuestionsController {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
+    console.log("Deletar Questão")
+
     const IdQuestao = params.id
 
-    const question = await Questao.findByOrFail('id', IdQuestao)
+    const questao = await Questao.findByOrFail('id', IdQuestao)
 
-    const path = __dirname.replace('app/Controllers/Http', `uploads/images/${question.Imagem_link}`)
+    let path = ''
 
-    console.log(path)
+    if(process.platform.includes('win')){
+      path = __dirname.replace('app\\Controllers\\Http', 'uploads\\images\\' + `${questao.Imagem_link}`)
+    } else {
+      path = __dirname.replace('app/Controllers/Http', `uploads/images/${questao.Imagem_link}`)
+    }
 
     try {
       fs.unlinkSync(path)
-      await question.delete()
+      await questao.delete()
     } catch (err) {
       return response.json({ error: err })
     }
@@ -104,11 +110,7 @@ export default class QuestionsController {
 
   public async SelecionarQuestao({ params, response }: HttpContextContract) {
 
-    console.log("Selecionar questão")
-
     const IdQuestao = params.id
-
-    console.log(IdQuestao)
 
     const questao = await Questao.findByOrFail('id', IdQuestao)
 
