@@ -23,8 +23,7 @@ export const Materias = [
   'Atualidade',
 ]
 
-export const frentes 
-= [
+export const Frentes = [
   'Botânica e Ecologia',
   'Fisiologia Animal e Origem da Vida',
   'Metabolismo Celular, Bioquímica e Genética',
@@ -89,4 +88,12 @@ export const StatusQuestion = [
   'aprovada',
   'reprovada',
   'pendente',
+]
+
+export const Alternativa = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
 ]

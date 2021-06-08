@@ -5,9 +5,10 @@ import readXlsxFile from 'read-excel-file/node'
 import Exam from 'App/Models/Exam'
 import Questao from 'App/Models/Questoes'
 import ExcelQuestion from '../../../Projetos/BancoQuestoes/ExcelQuestions'
-import { Alternativa, EnemArea, Frentes, Materias } from '../../../Projetos/BancoQuestoes/Enums/Questoes'
+import {EnemArea, Materias, Frentes, Alternativa } from '../../../Projetos/BancoQuestoes/Const/ConstantesEnem'
 
 import fs from 'fs'
+
 
 export default class QuestionsController {
 
@@ -75,8 +76,6 @@ export default class QuestionsController {
     questao.ano = questionDetails.ano
     questao.alternativa = questionDetails.alternativa
 
-    console.log(questao.toJSON())
-
     await questao.save()
 
     return questao
@@ -93,6 +92,8 @@ export default class QuestionsController {
 
     const path = __dirname.replace('app/Controllers/Http', `uploads/images/${question.Imagem_link}`)
 
+    console.log(path)
+
     try {
       fs.unlinkSync(path)
       await question.delete()
@@ -102,7 +103,12 @@ export default class QuestionsController {
   }
 
   public async SelecionarQuestao({ params, response }: HttpContextContract) {
+
+    console.log("Selecionar questão")
+
     const IdQuestao = params.id
+
+    console.log(IdQuestao)
 
     const questao = await Questao.findByOrFail('id', IdQuestao)
 

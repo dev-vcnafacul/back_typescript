@@ -1,5 +1,5 @@
 import { Indices } from './Tipos/PlanQuestion'
-import { EnemArea, Materias, frentes } from './Const/ConstantesImportantesEnem'
+import { EnemArea, Materias, frentes } from './Const/ConstantesEnem'
 
 const indices = [
   'ImagemLink',

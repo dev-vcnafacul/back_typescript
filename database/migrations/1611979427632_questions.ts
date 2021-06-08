@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
-import { EnemArea, Materias, frentes, StatusQuestion } from '../../Projetos/BancoQuestoes/Const/ConstantesImportantesEnem'
+import { EnemArea, Materias, Frentes, StatusQuestion } from '../../Projetos/BancoQuestoes/Const/ConstantesEnem'
 
 export default class Questions extends BaseSchema {
   protected tableName = 'questoes'
@@ -27,9 +27,9 @@ export default class Questions extends BaseSchema {
       // Dificuldade da questão de 0 a 100
       table.enum('materia', Materias).notNullable()
       // Esse Campo precisa se enum com todas as frentes bem listadas
-      table.enum('frente_1', frentes).notNullable()
-      table.enum('frente_2', frentes).notNullable()
-      table.enum('frente_3', frentes).notNullable()
+      table.enum('frente_1', Frentes).notNullable()
+      table.enum('frente_2', Frentes).notNullable()
+      table.enum('frente_3', Frentes).notNullable()
       // Toda questão é cadastrada como pendente e precisa ser aprovada por um adm/professor
       table.integer('dificuldade').defaultTo(0).notNullable()
       // Quantidades de vezes que essa questão foi respondida

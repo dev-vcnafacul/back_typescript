@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { Alternativa, EnemArea, Frentes, StatusQuestion, Materias } from '../../Projetos/BancoQuestoes/Enums/Questoes'
 
 export default class Questoes extends BaseModel {
   @column({ isPrimary: true })
@@ -16,19 +15,19 @@ export default class Questoes extends BaseModel {
   public Imagem_link: string
 
   @column()
-  public enem_area: EnemArea
+  public enem_area: string
 
   @column()
-  public materia: Materias
+  public materia: string
 
   @column()
-  public frente_1: Frentes
+  public frente_1: string
 
   @column()
-  public frente_2: Frentes
+  public frente_2: string
 
   @column()
-  public frente_3: Frentes
+  public frente_3: string
 
   @column({ serializeAs: null })
   public dificuldade: number
@@ -46,10 +45,10 @@ export default class Questoes extends BaseModel {
   public ano: number
 
   @column({ serializeAs: null })
-  public status: StatusQuestion
+  public status: string
 
   @column({ serializeAs: null })
-  public alternativa: Alternativa
+  public alternativa: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

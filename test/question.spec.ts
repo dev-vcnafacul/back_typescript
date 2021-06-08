@@ -51,10 +51,10 @@ test.group('Question', (group) => {
 
     const responseQuestion = await supertest(BASE_URL)
       .post('/novaquestao')
-      .expect(422)
+      .expect(200)
       .field('enem_area', 'Ciências Humanas')
       .field('materia', 'História')
-      .field('frente_1', 'História do Brasil')
+      .field('frente_1', 'História do Brasil')
       .field('frente_2', 'Atualidade')
       .field('frente_3', 'Literatura')
       .field('ano', 2019)
@@ -65,16 +65,16 @@ test.group('Question', (group) => {
 
     console.log(responseQuestion.body)
 
-    /* const selectQuestion = await supertest(BASE_URL)
-      .get(`/selectquestion/${responseQuestion.body.id}`)
+    const selectQuestion = await supertest(BASE_URL)
+      .get(`/selecionarquestao/${responseQuestion.body.id}`)
       .expect(200)
       .set({ Authorization: `bearer ${login.body.token.token}` })
 
-    assert.equal(selectQuestion.body.subjects, 'História')
+    assert.equal(selectQuestion.body.materia, 'História')
 
     await supertest(BASE_URL)
-      .delete(`/deletequetion/${responseQuestion.body.id}`)
+      .delete(`/deletarquestao/${responseQuestion.body.id}`)
       .expect(200)
-      .set({ Authorization: `bearer ${login.body.token.token}` })*/
+      .set({ Authorization: `bearer ${login.body.token.token}` })
   }) 
 })
