@@ -53,8 +53,6 @@ export default class ForgotsController {
       return response.status(400).json({ msg: 'validade do token expirou' })
     }
 
-    console.log(userToken.expiresAt)
-
     if (userToken.expiresAt === true) {
       return response.status(400).json({ msg: 'validade do token expirou' })
     }
