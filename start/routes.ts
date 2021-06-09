@@ -1,12 +1,12 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/register', 'AuthController.register')
+Route.post('/cadastro', 'AuthController.register')
 Route.post('/login', 'AuthController.login')
 Route.get('/me', 'AuthController.me').middleware('auth')
 Route.patch('/patchme', 'AuthController.patchme').middleware('auth')
 Route.patch('/patchadmin', 'AuthController.patchAdmin').middleware('auth')
 
-Route.post('/forgot', 'ForgotsController.forgot')
+Route.post('/esqueci-minha-senha', 'ForgotsController.forgot')
 Route.patch('/reset', 'ForgotsController.reset')
 
 Route.post('/novoexame', 'ExamsController.NovoExame').middleware('auth')
