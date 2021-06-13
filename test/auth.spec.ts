@@ -32,13 +32,13 @@ const fields = [
 
 test.group('Auth', () => {
   test('register a student', async (assert) => {
-    const data = await supertest(BASE_URL).post('/register').expect(200).send(send)
+    const data = await supertest(BASE_URL).post('/cadastro').expect(200).send(send)
     assert.equal(data.body.email, send.email)
   })
 
   test('register without nothing', async (assert) => {
     const newsend = {}
-    const data = await supertest(BASE_URL).post('/register').expect(422).send(newsend)
+    const data = await supertest(BASE_URL).post('/cadastro').expect(422).send(newsend)
     const errors = data.body.errors
     for (let i = 0; i < 10; i++) {
       assert.equal(errors[i].field, fields[i])
@@ -48,7 +48,7 @@ test.group('Auth', () => {
     const newsend = send
     newsend.email = 'test3@gmail.com'
     newsend.password_confirmation = '123457'
-    const data = await supertest(BASE_URL).post('/register').expect(422).send(newsend)
+    const data = await supertest(BASE_URL).post('/cadastro').expect(422).send(newsend)
     const errors = data.body.errors
     assert.equal(errors[0].field, 'password_confirmation')
     assert.equal(errors[0].message, 'confirmed validation failed')

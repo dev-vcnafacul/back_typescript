@@ -20,7 +20,7 @@ let send = {
 
 test.group('Exam', () => {
   test('try create a new exam being a teacher, but not admin', async () => {
-    await supertest(BASE_URL).post('/register').expect(200).send(send)
+    await supertest(BASE_URL).post('/cadastro').expect(200).send(send)
 
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send({
       email: send.email,

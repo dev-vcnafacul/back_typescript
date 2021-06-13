@@ -13,7 +13,7 @@ let send = {
 
 test.group('Forgot', () => {
   test('forgot email', async (assert) => {
-    await supertest(BASE_URL).post('/forgot').expect(200).send({ email: send.email })
+    await supertest(BASE_URL).post('/esqueci-minha-senha').expect(200).send({ email: send.email })
     const user = await User.findByOrFail('email', send.email)
 
     const token = await Token.findByOrFail('user_id', user.id)
