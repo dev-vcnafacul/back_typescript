@@ -5,7 +5,7 @@ import readXlsxFile from 'read-excel-file/node'
 import Exam from 'App/Models/Exam'
 import Questao from 'App/Models/Questoes'
 import ExcelQuestion from '../../../Projetos/BancoQuestoes/ExcelQuestions'
-import {EnemArea, Materias, Frentes, Alternativa } from '../../../Projetos/BancoQuestoes/Const/ConstantesEnem'
+import {EnemArea, Materias, Frentes, Alternativa } from '../../../Projetos/BancoQuestoes/ConstantesEnem'
 
 import fs from 'fs'
 
@@ -86,19 +86,11 @@ export default class QuestionsController {
       return response.status(401).json({ error: 'Você não tem Autorização' })
     }
 
-    console.log("Deletar Questão")
-
     const IdQuestao = params.id
 
     const questao = await Questao.findByOrFail('id', IdQuestao)
 
-    let path = ''
-
-    if(process.platform.includes('win')){
-      path = __dirname.replace('app\\Controllers\\Http', 'uploads\\images\\' + `${questao.Imagem_link}`)
-    } else {
-      path = __dirname.replace('app/Controllers/Http', `uploads/images/${questao.Imagem_link}`)
-    }
+    const path = this.replacePath(process.platform.includes('win'), questao.Imagem_link, 'images')
 
     try {
       fs.unlinkSync(path)
@@ -124,7 +116,7 @@ export default class QuestionsController {
     }
     
 
-    const excel = request.file('docx', {
+    const excel = request.file('planilha', {
       size: '2mb',
       extnames: ['xlsx', 'csv'],
     })
@@ -136,19 +128,20 @@ export default class QuestionsController {
     if (excel.hasErrors) {
       return excel.errors
     }
-    const name = `${new Date().getTime()}.${excel.extname}`
+    const nome = `${new Date().getTime()}.${excel.extname}`
 
     try {
       await excel.move('uploads/excel/', {
-        name: name,
+        name: nome,
         overwrite: true,
       })
     } catch (err) {
       response.status(404)
       return err
     }
-    
-    const path = __dirname.replace('app\\Controllers\\Http', `uploads\\excel\\${name}`)
+
+    const path = this.replacePath(process.platform.includes('win'), nome, 'excel')
+
     const myFile = await readXlsxFile(path)
     
     const excelClass = new ExcelQuestion(myFile)
@@ -195,5 +188,12 @@ export default class QuestionsController {
   
   public async ListarQuestoes({ response }: HttpContextContract) {
     return response.json(await Questao.all())
+  }
+
+  private replacePath(win: boolean, nome: string, pasta: string) : string {
+    if (win) {
+      return __dirname.replace('app\\Controllers\\Http', `uploads\\${pasta}\\${nome}`)
+    }
+    return __dirname.replace('app/Controllers/Http', `uploads/${pasta}/${nome}`)
   }
 }

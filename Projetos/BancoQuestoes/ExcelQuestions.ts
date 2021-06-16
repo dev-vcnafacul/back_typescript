@@ -1,12 +1,12 @@
 import { Indices } from './Tipos/PlanQuestion'
-import { EnemArea, Materias, frentes } from './Const/ConstantesEnem'
+import { EnemArea, Materias, Frentes } from './ConstantesEnem'
 
 const indices = [
   'ImagemLink',
   'Vestibular',
   'Year',
   'EnemArea',
-  'Matéria',
+  'Materia',
   'Frente1',
   'Frente2',
   'Frente3',
@@ -29,13 +29,12 @@ export default class ExcelQuestion {
     this.errorNext = false
   }
 
-  private LogGeneration(ind1: number, ind2: number, arrayTest: any[], text: string) : boolean {
-    this.errorNext = true
-    if(!arrayTest.includes(this.arrayExcel[ind1][ind2])){
-      this.log.push(`${this.arrayExcel[ind1][ind2]} não é uma ${text} Válida`)
-      this.errorNext = false
+  private LogGeneration(linha: number, coluna: number, arrayTest: any[], text: string) {
+    this.errorNext = false
+    if(!arrayTest.includes(this.arrayExcel[linha][coluna])){
+      this.log.push(`${this.arrayExcel[linha][coluna]} não é uma ${text} Válida`)
+      this.errorNext = true
     }
-    return this.errorNext
   }
 
   public verify() {
@@ -45,9 +44,9 @@ export default class ExcelQuestion {
     for (let i = 1; i < this.arrayExcel.length; i++) {
       this.LogGeneration(i, 3, EnemArea, 'Área do Enem')
       this.LogGeneration(i, 4, Materias, 'Matéria')
-      this.LogGeneration(i, 5, frentes, 'Frente')
-      this.LogGeneration(i, 6, frentes, 'Frente')
-      this.LogGeneration(i, 7, frentes, 'Frente')
+      this.LogGeneration(i, 5, Frentes, 'Frente')
+      this.LogGeneration(i, 6, Frentes, 'Frente')
+      this.LogGeneration(i, 7, Frentes, 'Frente')
       this.LogGeneration(i, 8, typeCorrect, 'Alternativa')
       if(!this.error) {
         this.value = {
@@ -83,4 +82,5 @@ export default class ExcelQuestion {
     }
     return false
   }
+
 }

@@ -106,7 +106,7 @@ test.group('Auth', () => {
     const responseLogin = await supertest(BASE_URL).post('/login').expect(200).send(login6)
 
     await supertest(BASE_URL)
-      .patch('/patchme')
+      .put('/patchme')
       .set({ Authorization: `bearer ${responseLogin.body.token.token}` })
       .send({ nome: 'Teste' })
 

@@ -1,7 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/testecors', 'AuthController.TesteCors')
-
 Route.post('/cadastro', 'AuthController.register')
 Route.post('/login', 'AuthController.login')
 Route.get('/me', 'AuthController.me').middleware('auth')
