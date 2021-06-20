@@ -1,6 +1,6 @@
 import Simulado from '../../app/Models/Simulado'
 import TipoSimulado from '../../app/Models/TipoSimulado'
-import { ArrayQuestoes, QuestaoPorMaterias, RulesTypes } from 'Projetos/Simulados/Tipos/Simulados'
+import { ArrayQuestoes, QuestaoPorMaterias, RulesTypes } from 'Features/Simulados/Tipos/Simulados'
 import { Materias } from '../BancoQuestoes/ConstantesEnem'
 import ICriarSimulados from './ICriarSimulados'
 import Questoes from '../../app/Models/Questoes'

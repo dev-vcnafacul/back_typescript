@@ -1,4 +1,5 @@
-import User from 'App/Models/User'
+/**
+ * import User from 'App/Models/User'
 import test from 'japa'
 import supertest from 'supertest'
 
@@ -76,3 +77,5 @@ test.group('Question', (group) => {
       .set({ Authorization: `bearer ${login.body.token.token}` })
   })
 })
+
+ */

@@ -4,8 +4,8 @@ import readXlsxFile from 'read-excel-file/node'
 
 import Exam from 'App/Models/Exam'
 import Questao from 'App/Models/Questoes'
-import ExcelQuestion from '../../../Projetos/BancoQuestoes/ExcelQuestions'
-import {EnemArea, Materias, Frentes, Alternativa } from '../../../Projetos/BancoQuestoes/ConstantesEnem'
+import ExcelQuestion from '../../../Features/BancoQuestoes/ExcelQuestions'
+import {EnemArea, Materias, Frentes, Alternativa } from '../../../Features/BancoQuestoes/ConstantesEnem'
 
 import fs from 'fs'
 
@@ -144,46 +144,15 @@ export default class QuestionsController {
 
     const myFile = await readXlsxFile(path)
     
-    const excelClass = new ExcelQuestion(myFile)
+    const excelClass = new ExcelQuestion(myFile, auth.user?.id)
     const data = excelClass.verify()
 
-    const meuRetorno: string[] = []
-    const arrayPromisse: (() => Promise<void>)[] = []
-    if (!data.error) {
-      for (let i = 0; i < data.resp.length; i++) {
-        arrayPromisse.push(
-          async (): Promise<void> => {
-            const examId = await Exam.findBy('exam', data.resp[i].exam)
-            const quest = await Questao.findBy('imagem_link', data.resp[i].ImagemLink)
-            if (examId === null) {
-              meuRetorno.push(`${data.resp[i].exam} não existe no sistema`)
-            } else if (quest !== null) {
-              meuRetorno.push(`{ image: ${data.resp[i].ImagemLink}, error: Imagem já cadastrada}`)
-            } else {
-              const question = new Questao()
-
-              question.user_id = auth.user?.id || 1
-              question.Imagem_link = data.resp[i].ImagemLink
-              question.exam_id = examId.id
-              question.enem_area = data.resp[i].enemArea
-              question.materia = data.resp[i].materia
-              question.frente_1 = data.resp[i].frente1
-              question.frente_2 = data.resp[i].frente2
-              question.frente_3 = data.resp[i].frente3
-              question.ano = data.resp[i].ano
-              question.alternativa = data.resp[i].alternativa
-
-              await question.save()
-            }
-          }
-        )
-      }
-    } else {
-      return response.status(404).json(data)
+    if(data.resp.length > 0) {
+      const errorCadastroFinal = await excelClass.CadastroQuestao1a1()
+      data.log.concat(errorCadastroFinal)
     }
-    fs.unlinkSync(path)
-    await Promise.all(arrayPromisse.map((elem) => elem()))
-    return meuRetorno
+    
+    return data.log
   }
   
   public async ListarQuestoes({ response }: HttpContextContract) {
