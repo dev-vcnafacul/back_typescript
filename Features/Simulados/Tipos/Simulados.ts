@@ -1,4 +1,3 @@
-import { Materias } from 'Projetos/BancoQuestoes/Enums/Questoes'
 import Questao from 'App/Models/Questoes'
 
 export type ArrayFrentes = {
@@ -57,7 +56,7 @@ export type ArrayQuestoes = {
 }
 
 export type RulesTypes = {
-  materia: Materias
+  materia: string
   quantidade: number
 }
 

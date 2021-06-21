@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
-import { EnemArea, Materias, Frentes, StatusQuestion } from '../../Projetos/BancoQuestoes/ConstantesEnem'
+import { EnemArea, Materias, Frentes, StatusQuestion } from '../../Features/BancoQuestoes/ConstantesEnem'
 
 export default class Questions extends BaseSchema {
   protected tableName = 'questoes'

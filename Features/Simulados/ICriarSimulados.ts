@@ -1,5 +1,5 @@
 import TypesSimulado from "App/Models/TipoSimulado";
-import { ArrayQuestoes, QuestaoPorMaterias } from "Projetos/Simulados/Tipos/Simulados";
+import { ArrayQuestoes, QuestaoPorMaterias } from "Features/Simulados/Tipos/Simulados";
 
 export default interface ICriarSimulados{
   Nome: string

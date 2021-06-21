@@ -1,5 +1,4 @@
-/**
- * import test from 'japa'
+import test from 'japa'
 import supertest from 'supertest'
 
 const BASE_URL = 'http://localhost:3333'
@@ -118,5 +117,3 @@ test.group('Auth', () => {
     assert.equal(responseMe.body.nome, 'Teste')
   })
 })
-
- */

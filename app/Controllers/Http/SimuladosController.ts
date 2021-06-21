@@ -1,11 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import RespostasSimulado from 'Projetos/Simulados/RespostasSimulado'
-import CriarSimulado from 'Projetos/Simulados/CriarSimulados'
-import { Materias } from 'Projetos/BancoQuestoes/Enums/Questoes'
+import RespostasSimulado from 'Features/Simulados/RespostasSimulado'
+import CriarSimulado from 'Features/Simulados/CriarSimulados'
 import Simulado from 'App/Models/Simulado'
 import TipoSimulado from 'App/Models/TipoSimulado'
-import { Resposta, RespostaCorreta } from 'Projetos/Simulados/Tipos/Resposta'
+import { Resposta, RespostaCorreta } from 'Features/Simulados/Tipos/Resposta'
+import { Materias } from '../../../Features/BancoQuestoes/ConstantesEnem'
 
 export default class SimuladosController {
 
