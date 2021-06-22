@@ -1,4 +1,5 @@
-import User from 'App/Models/User'
+/**
+ * import User from 'App/Models/User'
 import test from 'japa'
 import supertest from 'supertest'
 
@@ -19,7 +20,7 @@ let send = {
 }
 
 test.group('Simulados', (group) => {
-  /* group.before(async () => {
+  group.before(async () => {
     const login = await supertest(BASE_URL).post('/login').expect(200).send({
         email: send.email,
         password: send.password,
@@ -28,5 +29,6 @@ test.group('Simulados', (group) => {
 
   test('2+2', async (assert) => {
     assert.equal(2 + 2, 4)
-  }) */
+  }) 
 })
+ */
