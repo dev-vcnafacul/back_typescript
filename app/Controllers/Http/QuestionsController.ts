@@ -90,7 +90,7 @@ export default class QuestionsController {
 
     const questao = await Questao.findByOrFail('id', IdQuestao)
 
-    const path = this.replacePath(process.platform.includes('win'), questao.Imagem_link, 'images')
+    const path = this.replacePath(questao.Imagem_link, 'images')
 
     try {
       fs.unlinkSync(path)
@@ -126,7 +126,7 @@ export default class QuestionsController {
     }
     
     if (excel.hasErrors) {
-      return excel.errors
+      return response.json({ error: excel.errors }) 
     }
     const nome = `${new Date().getTime()}.${excel.extname}`
 
@@ -136,11 +136,11 @@ export default class QuestionsController {
         overwrite: true,
       })
     } catch (err) {
-      response.status(404)
+      response.status(404).json({ error: err })
       return err
     }
 
-    const path = this.replacePath(process.platform.includes('win'), nome, 'excel')
+    const path = this.replacePath(nome, 'excel')
 
     const myFile = await readXlsxFile(path)
     
@@ -152,15 +152,16 @@ export default class QuestionsController {
       data.log.concat(errorCadastroFinal)
     }
     
-    return data.log
+    return response.status(200).json({ error: data.log })
   }
   
   public async ListarQuestoes({ response }: HttpContextContract) {
     return response.json(await Questao.all())
   }
 
-  private replacePath(win: boolean, nome: string, pasta: string) : string {
-    if (win) {
+  // Essa Função não deveria estar aqui. Não é Responsabilidade do Controller fazer isso.
+  private replacePath(nome: string, pasta: string) : string {
+    if (process.platform.includes('win')) {
       return __dirname.replace('app\\Controllers\\Http', `uploads\\${pasta}\\${nome}`)
     }
     return __dirname.replace('app/Controllers/Http', `uploads/${pasta}/${nome}`)

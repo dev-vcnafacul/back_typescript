@@ -6,6 +6,8 @@ import { DownloadGoogleDriveAPI } from '../GoogleDriveAPI/Downloader/index'
 import Exam from 'App/Models/Exam'
 import Questao from 'App/Models/Questoes'
 
+import fs from 'fs'
+
 const indices = [
   'ImagemLink',
   'Vestibular',
@@ -108,6 +110,7 @@ export default class ExcelQuestion {
                 return true
 
               } catch (error) {
+                fs.unlinkSync(this.replacePath(nomearquivo, 'images'))
                 meuRetorno.push(`{ error: Não foi possível cadastrar Questao ${this.ArrayReturn[i].ImagemLink}. ${error}}`)
                 return false
               }
@@ -120,12 +123,19 @@ export default class ExcelQuestion {
       return meuRetorno
   }
 
+  private replacePath(nome: string, pasta: string) : string {
+    if (process.platform.includes('win')) {
+      return __dirname.replace('Features\\BancoQuestoes', `uploads\\${pasta}\\${nome}`)
+    }
+    return __dirname.replace('Features/BancoQuestoes', `uploads/${pasta}/${nome}`)
+  }
+
   private DownloadImages(fileid: string): string {
     const GoogleDrive = new DownloadGoogleDriveAPI()
 
     const nomearquivo = `${new Date().getTime()}.jpeg`
 
-    if(!GoogleDrive.Download(fileid, `uploads/images/${nomearquivo}`)){
+    if(fileid != '' && !GoogleDrive.Download(fileid, `uploads/images/${nomearquivo}`)){
       return nomearquivo
     }
     return ''  
