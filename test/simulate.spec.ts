@@ -1,5 +1,4 @@
-/**
- * import User from 'App/Models/User'
+import User from 'App/Models/User'
 import test from 'japa'
 import supertest from 'supertest'
 
@@ -31,4 +30,4 @@ test.group('Simulados', (group) => {
     assert.equal(2 + 2, 4)
   }) 
 })
- */
+

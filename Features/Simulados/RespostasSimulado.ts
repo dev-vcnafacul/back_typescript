@@ -1,5 +1,5 @@
 import Questoes from 'App/Models/Questoes'
-import { RespostaCorreta, Resposta } from 'Projetos/Simulados/Tipos/Resposta'
+import { RespostaCorreta, Resposta } from 'Features/Simulados/Tipos/Resposta'
 
 export default class RespostasSimulado {
   private ObjRespostasSimulado: Resposta[]

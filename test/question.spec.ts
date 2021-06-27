@@ -1,5 +1,4 @@
-/**
- * import User from 'App/Models/User'
+import User from 'App/Models/User'
 import test from 'japa'
 import supertest from 'supertest'
 
@@ -48,7 +47,7 @@ test.group('Question', (group) => {
       .send({ exam: 'enem', localizacao: 'BR' })
       .set({ Authorization: `bearer ${login.body.token.token}` })
 
-    const pathImage = __dirname + '/ImageTest.jpg'
+    const pathImage = __dirname + '/files/ImageTest.jpg'
 
     const responseQuestion = await supertest(BASE_URL)
       .post('/novaquestao')
@@ -77,5 +76,3 @@ test.group('Question', (group) => {
       .set({ Authorization: `bearer ${login.body.token.token}` })
   })
 })
-
- */

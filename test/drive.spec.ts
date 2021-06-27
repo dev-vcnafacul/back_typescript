@@ -8,12 +8,12 @@ import fs from 'fs'
 
 test.group('Google Drive API', (group) => {
 
-   /* group.after(async () => {
-    const path = __dirname.replace('test', "uploads/images/testes")
+   group.after(async () => {
+    const path = __dirname.replace('test', "uploads/images/teste")
     fs.readdirSync(path).forEach(file => {
       fs.unlinkSync(path + `/${file}`)
     })
-  }) */
+  })
 
   test('Download Imagem Google Drive API', (assert) => {
 
@@ -21,7 +21,7 @@ test.group('Google Drive API', (group) => {
 
     const GoogleDriveAPI = new DownloadGoogleDriveAPI();
 
-    assert.isTrue(GoogleDriveAPI.Download(fileid, 'uploads/images/testes/'))
+    assert.isTrue(GoogleDriveAPI.Download(fileid, 'uploads/images/teste/'))
 
   })
 
