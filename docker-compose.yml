@@ -1,12 +1,34 @@
 version: '3.9'
 services: 
-    db:
-        image: postgres
-        container_name: database
-        environment: 
-            POSTGRES_PASSWORD: postgres
-        ports: 
-            - 5432:5432
-        volumes:
-            - ../datadb:/var/lib/postgresql/data
-            - ./docker:/home
+  db:
+    image: postgres
+    container_name: database
+    ports: 
+      - ${PG_PORT}:5432
+    volumes:
+      - ../datadb:/var/lib/postgresql/data
+    env_file: .env
+    environment: 
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_USER: ${PG_USER}
+    networks: 
+      - develop-networks
+  app:
+    build: 
+      dockerfile: ./docker/node.Dockerfile
+      context: .
+    image: mynode
+    container_name: mynode
+    working_dir: /var/www/
+    ports: 
+      - 80:3333
+    networks: 
+      - develop-networks
+    command: node ace migration:run
+    entrypoint: ["node", "ace", "serve"]
+    depends_on: 
+      - db
+    
+networks:
+  develop-networks:
+    driver: bridge
