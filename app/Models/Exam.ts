@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { Localizacao } from '../../Projetos/BancoQuestoes/Enums/EnumLocalizacao'
+import { Localizacao } from '../../Features/BancoQuestoes/Enums/EnumLocalizacao'
 
 export default class Exam extends BaseModel {
   @column({ isPrimary: true })

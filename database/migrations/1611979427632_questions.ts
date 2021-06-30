@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
-import { EnemArea, Materias, Frentes, StatusQuestion } from '../../Projetos/BancoQuestoes/ConstantesEnem'
+import { EnemArea, Materias, Frentes, StatusQuestion } from '../../Features/BancoQuestoes/ConstantesEnem'
 
 export default class Questions extends BaseSchema {
   protected tableName = 'questoes'
@@ -24,7 +24,11 @@ export default class Questions extends BaseSchema {
       table.string('imagem_link').notNullable().unique()
       // Areas do Enem, uma boa forma de entender a pergunta
       table.enum('enem_area', EnemArea).notNullable()
+      // Que ano
+      table.integer('ano').notNullable()
       // Dificuldade da questão de 0 a 100
+      table.enum('caderno', ['Azul', 'Amarelo', 'Rosa', 'Branco', 'Cinza'])
+      table.integer('numero_questao').notNullable()
       table.enum('materia', Materias).notNullable()
       // Esse Campo precisa se enum com todas as frentes bem listadas
       table.enum('frente_1', Frentes).notNullable()
@@ -37,8 +41,6 @@ export default class Questions extends BaseSchema {
       // Quantidade de vezes que essa questão apareceu em simulados diferentes
       table.integer('quantidadeTestes').defaultTo(0).notNullable()
       table.json('historico').defaultTo(0).notNullable()
-      // Que ano
-      table.integer('ano').notNullable()
       table.enum('status', StatusQuestion).defaultTo('aprovada')
       table.enum('alternativa', ['A', 'B', 'C', 'D', 'E']).notNullable()
       table.timestamps(true)

@@ -1,5 +1,4 @@
 import Questao from "App/Models/Questoes";
-import { Alternativa } from "Projetos/BancoQuestoes/Enums/Questoes";
 
 export type RespostaCorreta = {
     questao: Questao
@@ -9,5 +8,5 @@ export type RespostaCorreta = {
 
 export type Resposta = {
     idQuestao: number
-    alternativa: Alternativa
+    alternativa: string
 }

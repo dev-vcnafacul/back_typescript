@@ -11,7 +11,7 @@ export default class UsersSchema extends BaseSchema {
       table.string('nome', 25).notNullable()
       table.string('sobrenome', 50).notNullable()
       table.string('telefone').notNullable()
-      table.enum('genero', ['Masculino', 'Feminino', 'Others']).notNullable()
+      table.enum('genero', ['Masculino', 'Feminino', 'Outros']).notNullable()
       table.date('nascimento').notNullable()
       table.string('estado').notNullable()
       table.string('cidade').notNullable()

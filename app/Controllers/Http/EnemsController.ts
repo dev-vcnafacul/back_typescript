@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { Enem } from '../../../Projetos/BancoQuestoes/ConstantesEnem'
+import { Enem } from '../../../Features/BancoQuestoes/ConstantesEnem'
 
 export default class EnemsController {
   public AllEnem({ response }: HttpContextContract) {
