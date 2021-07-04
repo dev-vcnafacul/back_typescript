@@ -1,6 +1,9 @@
 version: '3.9'
 services: 
   db:
+    build: 
+      dockerfile: ./docker/postgres.dockerfile
+      context: .
     image: postgres
     container_name: database
     ports: 
@@ -8,27 +11,50 @@ services:
     volumes:
       - ../datadb:/var/lib/postgresql/data
     env_file: .env
+    restart: always
     environment: 
       POSTGRES_PASSWORD: ${PG_PASSWORD}
       POSTGRES_USER: ${PG_USER}
     networks: 
       - develop-networks
+
   app:
     build: 
-      dockerfile: ./docker/node.Dockerfile
+      dockerfile: ./docker/node.dockerfile
       context: .
     image: mynode
     container_name: mynode
-    working_dir: /var/www/
+    working_dir: /var/www/build
+    env_file: .env
+    restart: always
     ports: 
-      - 80:3333
+      - ${PORT}:3333
     networks: 
       - develop-networks
-    command: node ace migration:run
-    entrypoint: ["node", "ace", "serve"]
+    entrypoint: ["yarn"]
+    command: ['migration']
+    command: ['production']
     depends_on: 
       - db
-    
+  web:
+    build: 
+      dockerfile: ./docker/nginx.dockerfile
+      context: .
+    image: nginx:1.10.1-alpine
+    volumes:
+      - ../templates:/etc/nginx/templates
+    container_name: mynginx
+    ports: 
+      - "80:80"
+    restart: always
+    environment: 
+      NGINX_HOST: "vcnafacul.com"
+      NGINX_PORT: 80
+    networks: 
+      - develop-networks
+    depends_on: 
+      - app
+
 networks:
   develop-networks:
     driver: bridge
