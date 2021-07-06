@@ -41,6 +41,7 @@
     "@adonisjs/mail": "^5.2.3",
     "@adonisjs/repl": "^1.0.0",
     "@adonisjs/view": "^3.1.0",
+    "@types/socket.io": "^3.0.2",
     "date-fns": "^2.16.1",
     "googleapis": "^39.2.0",
     "luxon": "^1.25.0",
@@ -50,6 +51,7 @@
     "proxy-addr": "^2.0.6",
     "read-excel-file": "^5.0.0",
     "reflect-metadata": "^0.1.13",
+    "socket.io": "^4.1.2",
     "source-map-support": "^0.5.19"
   }
 }
