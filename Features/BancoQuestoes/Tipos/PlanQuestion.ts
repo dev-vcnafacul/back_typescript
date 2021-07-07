@@ -1,4 +1,4 @@
-import { Alternativa, Frentes, Materias, EnemArea } from "Projetos/BancoQuestoes/Enums/Questoes";
+import { Alternativa, Frentes, Materias, EnemArea } from "Features/BancoQuestoes/Enums/Questoes";
 
 export type Indices = {
   ImagemLink: string,

@@ -2,7 +2,7 @@ FROM node:14
 
 ENV NODE_ENV=development
 
-COPY . /var/www
+COPY /build /var/www
 
 WORKDIR /var/www
 
