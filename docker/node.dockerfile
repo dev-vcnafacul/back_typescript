@@ -14,7 +14,7 @@ RUN yarn build
 
 COPY /docker/config/ecosystem.config /build
 
-RUN cp .env /build
+COPY .env .
 
 EXPOSE 3333
 

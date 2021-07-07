@@ -52,3 +52,14 @@ export type EnemArea = {
     TecnologiasInformacaoComunicacao: 'Tecnologias da Informação e Comunicação'
   }
   
+  export type Indices = {
+    ImagemLink: string,
+    exam: string,
+    ano: number,
+    enemArea: string,
+    materia: string,
+    frente1: string,
+    frente2: string,
+    frente3: string,
+    alternativa: string,
+  }

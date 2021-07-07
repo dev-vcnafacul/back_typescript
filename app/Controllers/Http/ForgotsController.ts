@@ -45,7 +45,19 @@ export default class ForgotsController {
   }
 
   public async reset({ request, response }: HttpContextContract) {
-    const { token, password } = request.only(['token', 'password'])
+    const { password } = request.only(['password'])
+    
+    const tokenRequest  = request.only(['token'])
+
+    if(!tokenRequest) {
+      const tokenRequest = request.headers().authorization?.split(' ')
+
+      if(tokenRequest == undefined || tokenRequest?.length != 2) {
+        return response.status(404)
+      }
+    }
+
+    const token = tokenRequest[1]
 
     const userToken = await Token.findByOrFail('token', token)
 
@@ -59,6 +71,7 @@ export default class ForgotsController {
 
     userToken.expiresAt = true
     await userToken.save()
+
 
     const user = await User.query().preload('token')
 

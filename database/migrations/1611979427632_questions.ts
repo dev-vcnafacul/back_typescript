@@ -27,8 +27,6 @@ export default class Questions extends BaseSchema {
       // Que ano
       table.integer('ano').notNullable()
       // Dificuldade da questão de 0 a 100
-      table.enum('caderno', ['Azul', 'Amarelo', 'Rosa', 'Branco', 'Cinza'])
-      table.integer('numero_questao').notNullable()
       table.enum('materia', Materias).notNullable()
       // Esse Campo precisa se enum com todas as frentes bem listadas
       table.enum('frente_1', Frentes).notNullable()

@@ -1,10 +1,10 @@
-import { Indices } from './Tipos/PlanQuestion'
+import { Indices } from './Tipos/Enem'
 import { EnemArea, Materias, Frentes } from './ConstantesEnem'
 
 import { DownloadGoogleDriveAPI } from '../GoogleDriveAPI/Downloader/index'
 
 import Exam from 'App/Models/Exam'
-import Questao from 'App/Models/Questoes'
+import Questoes from 'App/Models/Questoes'
 
 import fs from 'fs'
 
@@ -92,7 +92,7 @@ export default class ExcelQuestion {
             } else {
 
               try {
-                const question = new Questao()
+                const question = new Questoes()
 
                 question.user_id = this.userid
                 question.Imagem_link = nomearquivo

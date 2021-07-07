@@ -19,18 +19,17 @@ services:
       - develop-networks
 
   app:
-    build: 
-      dockerfile: ./docker/node.dockerfile
-      context: .
-    image: mynode
+    image: node:14
     container_name: mynode
-    working_dir: /var/www/build
+    working_dir: /var/www/
     env_file: .env
     restart: always
     ports: 
       - ${PORT}:3333
     networks: 
       - develop-networks
+    volumes: 
+      - ./build:/var/www/
     entrypoint: ["yarn"]
     command: ['migration']
     command: ['production']

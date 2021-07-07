@@ -75,22 +75,27 @@ export default class AuthController {
   }
 
   public async patchme({ auth, response, request }: HttpContextContract) {
-    const user = await User.findByOrFail('id', auth.user?.id)
+    try {
+      const user = await User.findByOrFail('id', auth.user?.id)
 
-    const data = request.all()
+      const data = request.all()
 
-    user.nome = data.nome || user.nome
-    user.sobrenome = data.sobrenome || user.sobrenome
-    user.telefone = data.telefone || user.telefone
-    user.genero = data.genero || user.genero
-    user.nascimento = data.nascimento || user.nascimento
-    user.estado = data.estado || user.estado
-    user.cidade = data.cidade || user.cidade
-    user.sobre = data.sobre || user.sobre
+      user.nome = data.nome || user.nome
+      user.sobrenome = data.sobrenome || user.sobrenome
+      user.telefone = data.telefone || user.telefone
+      user.genero = data.genero || user.genero
+      user.nascimento = data.nascimento || user.nascimento
+      user.estado = data.estado || user.estado
+      user.cidade = data.cidade || user.cidade
+      user.sobre = data.sobre || user.sobre
 
-    await user.save()
+      await user.save()
 
-    return response.status(200).json(user)
+      return response.status(200).json(user)
+
+    } catch (error) {
+      return response.status(404).json({ error: error })
+    }
   }
 
   public async patchAdmin({ auth, request, response }: HttpContextContract) {
