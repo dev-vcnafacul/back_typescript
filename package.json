@@ -9,6 +9,8 @@
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
     "migration": "node ace migration:run --force",
+    "demigration": "node ace migration:rollback --force",
+    "migrationstatus": "node ace migration:status --force",
     "production": "pm2-runtime server.js --name vcnafacul"
   },
   "devDependencies": {
