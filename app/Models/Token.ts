@@ -7,7 +7,7 @@ export default class Token extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column()
+  @column({ columnName: 'user_id'})
   public userId: number
 
   @column()
@@ -22,9 +22,9 @@ export default class Token extends BaseModel {
   @hasOne(() => User)
   public user: HasOne<typeof User>
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, columnName: 'created_at' })
   public createdAt: DateTime
 
-  @column()
+  @column({ columnName: 'expires_at'})
   public expiresAt: Boolean
 }

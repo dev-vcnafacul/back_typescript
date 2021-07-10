@@ -33,7 +33,7 @@ const fields = [
 test.group('Auth', () => {
   test('register a student', async (assert) => {
     const data = await supertest(BASE_URL).post('/cadastro').expect(200).send(send)
-    assert.equal(data.body.email, send.email)
+    assert.equal(data.body.user.email, send.email)
   })
 
   test('register without nothing', async (assert) => {
