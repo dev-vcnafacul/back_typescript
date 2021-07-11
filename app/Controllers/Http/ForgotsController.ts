@@ -49,14 +49,6 @@ export default class ForgotsController {
     
     const tokenRequest  = request.only(['token'])
 
-    if(!tokenRequest) {
-      const tokenRequest = request.headers().authorization?.split(' ')
-
-      if(tokenRequest == undefined || tokenRequest?.length != 2) {
-        return response.status(404)
-      }
-    }
-
     const token = tokenRequest[1]
 
     const userToken = await Token.findByOrFail('token', token)
