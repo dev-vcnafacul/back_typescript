@@ -86,8 +86,6 @@ export default class AuthController {
 
       const data = request.all()
 
-      console.log(data)
-
       user.nome = data.nome ? data.nome : user.nome 
       user.sobrenome = data.sobrenome ? data.sobrenome : user.sobrenome
       user.telefone = data.telefone? data.telefone : user.telefone
@@ -96,10 +94,9 @@ export default class AuthController {
       user.estado = data.estado? data.estado : user.estado
       user.cidade = data.cidade ? data.cidade : user.cidade
       user.sobre = data.sobre ? data.sobre :  user.sobre
+      user.password = data.password ? data.password : user.password
 
       await user.save()
-
-      console.log(user.toJSON())
 
       return response.status(200).json(user)
 
