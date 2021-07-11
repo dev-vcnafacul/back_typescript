@@ -3,7 +3,6 @@ import Token from 'App/Models/Token'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreateUser from '../../../Features/Auth/createUser'
-import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class AuthController {
   public async register({ auth, request, response }: HttpContextContract) {
