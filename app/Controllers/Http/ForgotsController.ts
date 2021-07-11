@@ -47,9 +47,7 @@ export default class ForgotsController {
   public async reset({ request, response }: HttpContextContract) {
     const { password } = request.only(['password'])
     
-    const tokenRequest  = request.only(['token'])
-
-    const token = tokenRequest[1]
+    const { token }  = request.only(['token'])
 
     const userToken = await Token.findByOrFail('token', token)
 
